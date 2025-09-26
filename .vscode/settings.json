@@ -1,0 +1,11 @@
+{
+    "files.associations": {
+        "header.h": "c",
+        "stdio.h": "c",
+        "stdlib.h": "c",
+        "string.h": "c"
+    },
+    "cSpell.words": [
+        "Kenobi"
+    ]
+}
