@@ -18,10 +18,11 @@ static bool parse_int_strict(const char* s, int& out)
         i++;
     }
 
-    // Require at least one digit
+    // Require at least one digit; this will also reject empty strings and strings with only spaces, and is nice and fast
     if (s[i] < '0' || s[i] > '9') return false;
 
-    long val = 0;
+    long val = 0; // handle big number
+    // Parse digits, STOP on non-digit
     while (s[i] >= '0' && s[i] <= '9') {
         val = val * 10 + (s[i] - '0');
         i++;
@@ -34,7 +35,7 @@ static bool parse_int_strict(const char* s, int& out)
     // Reject any other trailing characters
     if (s[i] != '\0') return false;
 
-    val *= sign;
+    val *= sign; // apply sign, *= is shorthand for val = val * sign; sign is either 1 or -1 (calculated above on line 17)
     if (val < -2147483648L || val > 2147483647L) return false;
     out = (int)val;
     return true;
