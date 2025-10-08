@@ -1,0 +1,34 @@
+Objective:\
+    The purpose of this assignment is for you to develop a better
+    understanding of the Linux run-time environment that a C program
+    operates under. NOTE: This assignment cannot be done on a Windows Operating System.
+Description:
+    As a test program, write a C program that stores data in an array,
+    computes the sum, average, maximum and minimum values of the array. Do this
+    by writing a main and three functions — a summing/averaging, a maximum
+    and a minimum. Place each of these functions in a separate file. Also, make
+    the array global (so that it is visible to the linker), and don’t use it as an
+    argument to any of the functions.
+1. Compile these files (using a Linux system), and generate link maps
+(using readelf and the other tools we discussed in lecture) for each
+separate function as well as the final executable.
+
+Determine the following:
+• The size of each function.
+• The address where each function is loaded into memory.
+• The name and location of the entry point for the entire program.
+• The locations and names of any functions (subroutines) from stdio
+(not iostream) that are linked with your file.
+• The locations and sizes of the data sections used by your program.
+
+2. Recompile your files using the -O (“minus-Oh”), the optimize option,
+then answer the same questions as above.
+
+3. Modify your code so that the array is declared inside main() and is
+an argument to each function. Recompile your files, then answer the
+questions in Part 1 again.
+Deliverables:
+• Submit the writeup with the program (printed)
+• Results (summary for each of the three parts listed above)
+• Program Log (document what and when you worked on tasks)
+• Source files

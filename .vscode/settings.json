@@ -54,9 +54,12 @@
         "sstream": "cpp",
         "stdexcept": "cpp",
         "streambuf": "cpp",
-        "typeinfo": "cpp"
+        "typeinfo": "cpp",
+        "arraycalculator.h": "c"
     },
     "cSpell.words": [
-        "Kenobi"
+        "Kenobi",
+        "readelf",
+        "rodata"
     ]
 }

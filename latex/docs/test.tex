@@ -1,0 +1,114 @@
+\documentclass[12pt,a4paper]{article}
+
+% Packages
+\usepackage[utf8]{inputenc}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage{hyperref}
+
+% Document metadata
+\title{Test LaTeX Document}
+\author{Clive Miller}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+
+\tableofcontents
+\newpage
+
+\section{Introduction}
+This is a test LaTeX document to verify that the PDF conversion script works correctly. This document includes various LaTeX features to ensure proper compilation.
+
+\section{Mathematical Equations}
+Here are some mathematical expressions to test:
+
+\subsection{Inline Math}
+The quadratic formula is $x = \frac{-b \pm \sqrt{b^2 - 4ac}}{2a}$, which is used to solve equations of the form $ax^2 + bx + c = 0$.
+
+\subsection{Display Math}
+Einstein's famous equation:
+\[
+E = mc^2
+\]
+
+The integral of a function:
+\[
+\int_{a}^{b} f(x) \, dx = F(b) - F(a)
+\]
+
+\subsection{Multi-line Equations}
+Using the align environment:
+\begin{align}
+f(x) &= x^2 + 2x + 1 \\
+     &= (x + 1)^2
+\end{align}
+
+\section{Lists}
+
+\subsection{Itemized List}
+\begin{itemize}
+    \item First item
+    \item Second item
+    \item Third item with nested list:
+    \begin{itemize}
+        \item Nested item 1
+        \item Nested item 2
+    \end{itemize}
+\end{itemize}
+
+\subsection{Enumerated List}
+\begin{enumerate}
+    \item First step
+    \item Second step
+    \item Third step
+\end{enumerate}
+
+\section{Tables}
+Here's a simple table:
+
+\begin{table}[h]
+\centering
+\begin{tabular}{|l|c|r|}
+\hline
+\textbf{Name} & \textbf{Age} & \textbf{Score} \\
+\hline
+Alice & 25 & 95 \\
+Bob & 30 & 87 \\
+Charlie & 28 & 92 \\
+\hline
+\end{tabular}
+\caption{Sample data table}
+\label{tab:sample}
+\end{table}
+
+\section{Cross-References}
+This section demonstrates cross-referencing. As shown in Table~\ref{tab:sample}, we have sample data. This is why we run pdflatex twice!
+
+\section{Code and Verbatim}
+Here's some inline code: \texttt{printf("Hello, World!");}.
+
+\begin{verbatim}
+#include <stdio.h>
+
+int main() {
+    printf("Hello, World!\n");
+    return 0;
+}
+\end{verbatim}
+
+\section{Conclusion}
+This test document includes:
+\begin{itemize}
+    \item Mathematical equations
+    \item Lists (itemized and enumerated)
+    \item Tables
+    \item Cross-references
+    \item Code snippets
+\end{itemize}
+
+If this document compiles successfully to PDF, the processor script is working correctly!
+
+\end{document}
