@@ -1,0 +1,213 @@
+\documentclass[11pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{geometry}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{fancyvrb}
+
+\geometry{margin=1in}
+
+% Code listing settings
+\lstset{
+    basicstyle=\ttfamily\small,
+    breaklines=true,
+    frame=single,
+    backgroundcolor=\color{gray!10},
+    columns=fullflexible,
+    keepspaces=true,
+}
+
+% Bash output style
+\lstdefinestyle{bash}{
+    language=bash,
+    basicstyle=\ttfamily\footnotesize,
+    backgroundcolor=\color{black!5},
+}
+
+% C code style
+\lstdefinestyle{ccode}{
+    language=C,
+    basicstyle=\ttfamily\footnotesize,
+    keywordstyle=\color{blue},
+    commentstyle=\color{green!60!black},
+    stringstyle=\color{red},
+}
+
+\title{Operating Systems Assignment 1}
+\author{Clive Miller}
+\date{}
+
+\begin{document}
+
+\maketitle
+
+\section*{Log}
+\begin{itemize}
+    \item 10 | 7 | 2025: Read Full assignment requirements
+    \item 10 | 8 | 2025: Wrote 3 programs and did initial runs
+    \item 10 | 9 | 2025: Wrote writeup and Latex doc
+\end{itemize}
+
+\section*{Part One, See Program One}
+Wrote Simple Program that completed the task.
+
+\subsection*{Output:}
+\begin{lstlisting}[style=bash]
+clivemiller@clivepc:~/code/c-code/assignments/operating_sys_ass_1$ cc programPartOne.c 
+clivemiller@clivepc:~/code/c-code/assignments/operating_sys_ass_1$ ./a.out 
+My Program Name: ./a.out | PID: 6920 | Loop Iteration: 0
+My Program Name: ./a.out | PID: 6920 | Loop Iteration: 1
+My Program Name: ./a.out | PID: 6920 | Loop Iteration: 2
+My Program Name: ./a.out | PID: 6920 | Loop Iteration: 3
+My Program Name: ./a.out | PID: 6920 | Loop Iteration: 4
+My Program Name: ./a.out | PID: 6920 | Loop Iteration: 5
+My Program Name: ./a.out | PID: 6920 | Loop Iteration: 6
+My Program Name: ./a.out | PID: 6920 | Loop Iteration: 7
+My Program Name: ./a.out | PID: 6920 | Loop Iteration: 8
+\end{lstlisting}
+
+\section*{Part 2}
+Wrote the two small programs, compiled them into named executables.
+
+\begin{itemize}
+    \item \texttt{programPartTwoFile.c} - \texttt{./pptf} to start, \texttt{./pptf \&} to start and send to background
+    \item \texttt{programPartTwoMath.c} - \texttt{./pptm} to start, \texttt{./pptm \&} to start and send to background
+\end{itemize}
+
+kill any process with \texttt{pkill \{name\}}
+
+\subsection*{Testing pptm}
+Then I sent pptm into the background and ran top:
+\begin{lstlisting}[style=bash]
+PID  USER      PR  NI    VIRT   RES     SHR S  %CPU   %MEM  TIME+   COMMAND  
+7375 clivemi+  20   0    2552   1056    964 S  19.3   0.0   0:11.41 pp2m                  
+\end{lstlisting}
+
+I noticed that its using a sizeable amount of CPU (at least the CPU amount assigned to my WSL container)
+But it is also not using little if not no memory. Its id is 7375
+
+\subsection*{Testing pptf}
+Next I sent pptf into the background and ran top:
+\begin{lstlisting}[style=bash]
+PID   USER      PR   NI   VIRT   RES     SHR S  %CPU   %MEM  TIME+   COMMAND                                                                                                                          
+11011 clivemi+  20   0    2684   1008    916 R  29.3   0.0   0:08.48 pp2f           
+\end{lstlisting}
+
+It is using a lot more CPU. its ID is 11011.
+
+\subsection*{Observations}
+Obviously PID is the process ID, the USER is the logged in user, the COMMAND is the process name, the time is time running (at least since the top command updated)
+The MEM is memory used, CPU is cpu used. PR is probably priority. VIRT is likely virtual memory. S is likely state, since it swaps between S (sleeping), R (running), etc.
+
+That is all I could guess, looking it up I found:
+\begin{itemize}
+    \item RES: Resident memory --- actual physical RAM currently used by the process.
+    \item SHR: Shared memory --- part of RES that may be shared with other processes (e.g., shared libraries).
+    \item NI: Niceness value --- affects scheduling priority (-20 = highest priority, 19 = lowest).
+\end{itemize}
+
+\subsection*{Running both processes}
+Finally I ran them both:
+\begin{lstlisting}[style=bash]
+PID   USER      PR   NI   VIRT     RES     SHR    S  %CPU   %MEM  TIME+   COMMAND                                                                                                
+2307  clivemi+  20   0    1262884  67208   47412  S  32.3   0.8   3:20.08 node
+15680 clivemi+  20   0    2684     1008    916    D  27.7   0.0   0:06.17 pp2f                                                                                                                
+2280  clivemi+  20   0    1177400  103372  47696  S  25.0   1.3   1:30.62 node                                                                     
+15738 clivemi+  20   0    2552     1044    948    S  21.3   0.0   0:03.29 pp2m               
+\end{lstlisting}
+
+You can see some processes and our two here. Then I ran pkill and ran top again
+\begin{lstlisting}[style=bash]
+PID  USER      PR   NI VIRT    RES     SHR    S   %CPU  %MEM   TIME+   COMMAND                                                                                              
+2555 clivemi+  20   0  54.0g   1.0g    66528  S   3.0   13.0   2:55.58 node                                                                                                       
+2247 clivemi+  20   0  11.3g   145020  52100  S   0.3   1.8    1:40.74 node                                                                                                   
+2280 clivemi+  20   0  1197624 122864  47696  S   0.3   1.5    2:30.76 node                                                                                                   
+2896 clivemi+  20   0  110432  45440   21224  S   0.3   0.6    0:08.25 cpptools         
+\end{lstlisting}
+
+Programs are in fact killed
+
+\section*{Part 3}
+Got some exe information from objdump, along with all the section headers
+
+\begin{itemize}
+    \item pp2f: file format elf64-x86-64
+    \item pp2m: file format elf64-x86-64
+\end{itemize}
+
+by running \texttt{stat -c '\%n \%s bytes' exeName} I can get the byte count
+\begin{lstlisting}[style=bash]
+clivemiller@clivepc:~/code/c-code/assignments/operating_sys_ass_1$ stat -c '%n %s bytes' pp2f
+pp2f 16056 bytes
+clivemiller@clivepc:~/code/c-code/assignments/operating_sys_ass_1$ stat -c '%n %s bytes' pp2m
+pp2m 16016 bytes
+\end{lstlisting}
+
+I then ran these to try and get memory use but it is using so little it doesnt show:
+\begin{lstlisting}[style=bash]
+clivemiller@clivepc:~/code/c-code/assignments/operating_sys_ass_1$ pidof pp2m
+4715
+clivemiller@clivepc:~/code/c-code/assignments/operating_sys_ass_1$ ps -p 4715 -o %mem
+%MEM
+ 0.0
+\end{lstlisting}
+
+\section*{Source Code}
+
+\subsection*{programPartOne.c:}
+\begin{lstlisting}[style=ccode]
+#include <stdio.h>
+#include <sys/types.h> // for pid_t
+#include <unistd.h> // for sleep and getpid()
+
+int main(int argc, char *argv[]) {
+    pid_t pid; // Declare a variable of type pid_t to store the PID
+    pid = getpid(); // Call getpid() to get the current process's PID
+    int count = 0; // counter
+
+    while (1) {
+        // fprintf (printf to file) is printing to stderr the argv[0] (exe name), the pid (getpid()), and the count (which is then iterated)
+        fprintf(stderr, "My Program Name: %s | PID: %d | Loop Iteration: %d\n", argv[0], getpid(), count++);
+        sleep(1); // sleep
+    }
+
+    return 0;
+}
+\end{lstlisting}
+
+\subsection*{programPartTwoMath.c}
+\begin{lstlisting}[style=ccode]
+#include <stdio.h>
+
+int main() {
+    while (1) {
+        int num = (100 + 20 / 23)*12; // do simple math
+        fprintf(stderr, "Calc ans is: %d \n", num); // Print ans
+    }
+
+    return 0;
+}
+\end{lstlisting}
+
+
+
+
+
+        
+\subsection*{programPartTwoFile.c}
+\begin{lstlisting}[style=ccode]
+#include <stdio.h>
+
+int main() {
+     while (1) {
+        FILE *file; // declare file pointer
+        file = fopen("./test.txt", "w"); // open file in write mode 
+        fprintf(file, "a"); // overwrite with a a single char "a"
+        fclose(file); // close
+    }
+
+    return 0;
+}
+\end{lstlisting}
+
+\end{document}

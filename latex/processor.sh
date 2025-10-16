@@ -1,4 +1,5 @@
 #!/bin/bash
+# alias procdoc='/home/clivemiller/code/latex/processor.sh'
 
 # LaTeX to PDF Converter
 # Usage: ./processor.bash <input.tex>

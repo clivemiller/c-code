@@ -1,114 +1,219 @@
-\documentclass[12pt,a4paper]{article}
-
-% Packages
-\usepackage[utf8]{inputenc}
-\usepackage[margin=1in]{geometry}
+\documentclass[10pt]{extarticle}
 \usepackage{amsmath}
-\usepackage{graphicx}
-\usepackage{hyperref}
+\usepackage{amssymb}
+\usepackage{geometry}
+\usepackage{multicol}
+\usepackage{enumitem}
+\geometry{margin=0.5in, top=0.4in, bottom=0.4in}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{3pt}
+\setlist{nosep, leftmargin=10pt}
+\setlength{\columnsep}{15pt}
 
-% Document metadata
-\title{Test LaTeX Document}
-\author{Clive Miller}
-\date{\today}
+\title{\vspace{-1.2cm}\LARGE\textbf{Statistics Quick Reference}}
+\author{}
+\date{}
 
 \begin{document}
-
 \maketitle
+\vspace{-0.6cm}
+\begin{multicol}{2}
+\normalsize
 
-\tableofcontents
-\newpage
+\textbf{1. Sample Mean:} $\bar{x} = \frac{\sum x_i}{n} = \frac{x_1 + x_2 + \cdots + x_n}{n}$
 
-\section{Introduction}
-This is a test LaTeX document to verify that the PDF conversion script works correctly. This document includes various LaTeX features to ensure proper compilation.
+\textit{What it does:} Calculates the average value of a dataset by summing all values and dividing by count. 
 
-\section{Mathematical Equations}
-Here are some mathematical expressions to test:
+\textit{Use:} Measures central tendency (center point of data). 
 
-\subsection{Inline Math}
-The quadratic formula is $x = \frac{-b \pm \sqrt{b^2 - 4ac}}{2a}$, which is used to solve equations of the form $ax^2 + bx + c = 0$.
+\textit{Variables:} $\bar{x}$ = sample mean (average), $x_i$ = individual data values, $n$ = total number of observations, $\sum$ = sum all values.
 
-\subsection{Display Math}
-Einstein's famous equation:
-\[
-E = mc^2
-\]
+\vspace{3pt}
 
-The integral of a function:
-\[
-\int_{a}^{b} f(x) \, dx = F(b) - F(a)
-\]
+\textbf{2. Sample Variance:} $s^2 = \frac{\sum (x_i - \bar{x})^2}{n - 1}$
 
-\subsection{Multi-line Equations}
-Using the align environment:
-\begin{align}
-f(x) &= x^2 + 2x + 1 \\
-     &= (x + 1)^2
-\end{align}
+\textit{What it does:} Measures how spread out data is from the mean by averaging squared deviations. 
 
-\section{Lists}
+\textit{Use:} Quantifies variability/dispersion in dataset. 
 
-\subsection{Itemized List}
-\begin{itemize}
-    \item First item
-    \item Second item
-    \item Third item with nested list:
-    \begin{itemize}
-        \item Nested item 1
-        \item Nested item 2
-    \end{itemize}
-\end{itemize}
+\textit{Variables:} $s^2$ = variance, $x_i$ = each data value, $\bar{x}$ = sample mean, $n$ = sample size, $(n-1)$ = degrees of freedom (corrects bias for sample vs. population).
 
-\subsection{Enumerated List}
-\begin{enumerate}
-    \item First step
-    \item Second step
-    \item Third step
-\end{enumerate}
+\vspace{3pt}
 
-\section{Tables}
-Here's a simple table:
+\textbf{3. Sample Standard Deviation:} $s = \sqrt{\frac{\sum (x_i - \bar{x})^2}{n - 1}} = \sqrt{s^2}$
 
-\begin{table}[h]
-\centering
-\begin{tabular}{|l|c|r|}
-\hline
-\textbf{Name} & \textbf{Age} & \textbf{Score} \\
-\hline
-Alice & 25 & 95 \\
-Bob & 30 & 87 \\
-Charlie & 28 & 92 \\
-\hline
-\end{tabular}
-\caption{Sample data table}
-\label{tab:sample}
-\end{table}
+\textit{What it does:} Square root of variance to return to original units. 
 
-\section{Cross-References}
-This section demonstrates cross-referencing. As shown in Table~\ref{tab:sample}, we have sample data. This is why we run pdflatex twice!
+\textit{Use:} Shows typical spread/deviation from mean in data's original units. 
 
-\section{Code and Verbatim}
-Here's some inline code: \texttt{printf("Hello, World!");}.
+\textit{Variables:} $s$ = standard deviation, $s^2$ = variance.
 
-\begin{verbatim}
-#include <stdio.h>
+\vspace{3pt}
 
-int main() {
-    printf("Hello, World!\n");
-    return 0;
-}
-\end{verbatim}
+\textbf{4. Empirical Rule (68-95-99.7):} 68\% within $\bar{x}\pm s$, 95\% within $\bar{x}\pm 2s$, 99.7\% within $\bar{x}\pm 3s$.
 
-\section{Conclusion}
-This test document includes:
-\begin{itemize}
-    \item Mathematical equations
-    \item Lists (itemized and enumerated)
-    \item Tables
-    \item Cross-references
-    \item Code snippets
-\end{itemize}
+\textit{What it does:} Approximates data distribution for normal data. 
 
-If this document compiles successfully to PDF, the processor script is working correctly!
+\textit{Use:} Quick estimation of where data falls. 
 
+\textit{Variables:} $\bar{x}$ = mean, $s$ = std dev.
+
+\vspace{3pt}
+
+\textbf{5. Complement Rule:} $P(A') = 1 - P(A)$
+
+\textit{What it does:} Finds probability that event A does NOT occur. 
+
+\textit{Use:} When calculating "not A" is easier than finding "A" directly. 
+
+\textit{Variables:} $P(A')$ = probability of not A (complement), $P(A)$ = probability of event A occurring.
+
+\vspace{3pt}
+
+\textbf{6. Addition Rule:} $P(A \cup B) = P(A) + P(B) - P(A \cap B)$
+
+\textit{What it does:} Finds probability of either event occurring. 
+
+\textit{Use:} Combines probabilities, avoids double-counting overlap. 
+
+\textit{Variables:} $P(A \cup B)$ = prob. A or B, $P(A \cap B)$ = prob. both A and B.
+
+\vspace{3pt}
+
+\textbf{6a. Independent Events:} $P(A \cap B) = P(A) \cdot P(B)$
+
+\textit{What it does:} Calculates probability of both events occurring when they're independent. 
+
+\textit{Use:} Test for independence: if this equation holds, events are independent; outcome of one doesn't affect the other. 
+
+\textit{Variables:} $P(A \cap B)$ = prob. both A and B occur, $P(A)$ = prob. of A, $P(B)$ = prob. of B.
+
+\vspace{3pt}
+
+\textbf{6b. Mutually Exclusive (Disjoint) Events:} $P(A \cap B) = 0$
+
+\textit{What it does:} States that both events cannot occur simultaneously. 
+
+\textit{Use:} Test for mutual exclusivity: if events can't happen together, their intersection is zero. When disjoint: $P(A \cup B) = P(A) + P(B)$. 
+
+\textit{Variables:} $P(A \cap B)$ = prob. both occur (zero for disjoint events).
+
+\vspace{3pt}
+
+\textbf{7. Expected Value:} $E(X) = \mu = \sum x \cdot p(x) = x_1p(x_1) + x_2p(x_2) + \cdots + x_np(x_n)$
+
+\textit{What it does:} Calculates theoretical mean/average of a probability distribution by weighting each value by its probability. 
+
+\textit{Use:} Predicts long-run average value over many trials. 
+
+\textit{Variables:} $E(X)$ = expected value, $\mu$ = population mean, $x$ = possible outcome values, $p(x)$ = probability of each outcome.
+
+\vspace{3pt}
+
+\textbf{8. Variance of Random Variable:} $V(X) = \sigma^2 = \sum (x - E(X))^2 \cdot p(x)$
+
+\textit{What it does:} Measures spread of probability distribution by averaging squared deviations from expected value. 
+
+\textit{Use:} Quantifies uncertainty/variability in random variable. 
+
+\textit{Variables:} $V(X)$ or $\sigma^2$ = population variance, $x$ = outcome values, $E(X)$ = expected value/mean, $p(x)$ = probabilities.
+
+\vspace{3pt}
+
+\textbf{9. Standard Deviation of RV:} $SD(X) = \sigma = \sqrt{V(X)}$ where $(SD_X)^2 = V(X)$
+
+\textit{What it does:} Square root of variance. 
+
+\textit{Use:} Shows spread in original units. 
+
+\textit{Variables:} $SD(X)$ or $\sigma$ = population standard deviation, $V(X)$ or $\sigma^2$ = variance.
+
+\vspace{3pt}
+
+\textbf{10. Central Limit Theorem:} $\bar{X} \sim N(\mu, \frac{\sigma}{\sqrt{n}})$ as $n \to \infty$
+
+\textit{What it does:} States that sample means form a normal distribution regardless of original population shape. 
+
+\textit{Use:} Justifies using normal distribution for statistical inference with large samples. 
+
+\textit{Variables:} $\bar{X}$ = sample mean distribution, $\mu$ = population mean, $\sigma$ = population std dev, $n$ = sample size, $\frac{\sigma}{\sqrt{n}}$ = standard error (spread of sample means).
+
+\vspace{3pt}
+
+\textbf{10a. Sampling Distribution of a Proportion:} $\hat{p} \sim N\left(p, \sqrt{\frac{pq}{n}}\right)$
+
+\textit{What it does:} Describes distribution of sample proportions. 
+
+\textit{Use:} Finding probabilities about proportions in surveys/sampling. Mean = $p$, Standard Error = $\sqrt{\frac{pq}{n}}$. 
+
+\textit{Variables:} $\hat{p}$ = sample proportion, $p$ = population proportion, $q = 1-p$, $n$ = sample size.
+
+\vspace{3pt}
+
+\textbf{10b. Sampling Distribution of the Sum:} $\text{Sum} \sim N(n\mu, \sqrt{n}\sigma)$
+
+\textit{What it does:} Describes distribution of total/sum of $n$ independent observations. 
+
+\textit{Use:} Finding probabilities about totals rather than averages. Mean of sum = $n\mu$, Std dev of sum = $\sqrt{n}\sigma$. 
+
+\textit{Variables:} Sum = total of $n$ values, $n$ = number of observations, $\mu$ = population mean, $\sigma$ = population std dev.
+
+\vspace{3pt}
+
+\textbf{11. Binomial Distribution:} $X \sim \text{Bin}(n, p)$ where $P(X=x) = \binom{n}{x}p^xq^{n-x}$, $q = 1-p$
+
+$\binom{n}{x} = \frac{n!}{x!(n-x)!}$ \quad Moments: $E(X)=np$, $V(X)=npq$, $SD(X)=\sqrt{npq}$
+
+\textit{What it does:} Calculates probability of exactly $x$ successes in $n$ independent trials with constant success probability. 
+
+\textit{Use:} Fixed number of trials, two outcomes (success/failure), constant probability, independent trials. 
+
+\textit{Variables:} $n$ = number of trials, $x$ = number of successes, $p$ = success probability, $q = 1-p$ = failure probability, $\binom{n}{x}$ = "n choose x" combinations.
+
+\vspace{3pt}
+
+\textbf{12. Poisson Distribution:} $X \sim \text{Pois}(\mu)$ where $P(X=x) = \frac{\mu^x e^{-\mu}}{x!}$
+
+Moments: $E(X)=\mu$, $V(X)=\mu$, $SD(X)=\sqrt{\mu}$
+
+\textit{What it does:} Calculates probability of exactly $x$ events occurring in a fixed interval when events happen at a known average rate. 
+
+\textit{Use:} Rare events, known average rate, events independent. 
+
+\textit{Variables:} $\mu$ = average rate/expected count per interval, $x$ = number of occurrences, $e$ = Euler's number (≈2.718), $x!$ = factorial of x.
+
+\vspace{3pt}
+
+\textbf{13. Normal Distribution:} $X \sim N(\mu, \sigma)$ with Z-score: $z = \frac{x-\mu}{\sigma}$
+
+\textit{What it does:} Standardizes any normal variable to standard normal distribution. 
+
+\textit{Use:} Converts to z-scores to use standard normal tables for probability calculations. 
+
+\textit{Variables:} $X$ = original normal variable, $\mu$ = mean of distribution, $\sigma$ = standard deviation, $z$ = standard score (number of std devs from mean), Result: $Z \sim N(0,1)$.
+
+\vspace{5pt}
+\textbf{Sampling Methods:}
+
+\vspace{2pt}
+\textbf{Random Sampling:} 
+
+\textit{What:} Every member has equal selection chance. 
+
+\vspace{2pt}
+\textbf{Stratified Sampling:} 
+
+\textit{What:} Divide population into homogeneous groups (strata), random sample from each stratum. 
+
+\vspace{2pt}
+\textbf{Cluster Sampling (1-stage):} 
+
+\textit{What:} Divide into clusters, randomly select some clusters, survey ALL members in selected clusters. 
+
+\vspace{2pt}
+\textbf{Cluster Sampling (2-stage):} 
+
+\textit{What:} Divide into clusters, randomly select clusters, then random sample within selected clusters. 
+
+\end{multicol}
 \end{document}

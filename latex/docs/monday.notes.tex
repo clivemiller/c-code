@@ -1,0 +1,797 @@
+\documentclass[11pt,a4paper]{article}
+
+% Packages
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{geometry}
+\usepackage{hyperref}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{enumitem}
+\usepackage{booktabs}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{fancyhdr}
+
+% Page geometry
+\geometry{margin=1in}
+
+% Code listing settings
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+
+\lstdefinestyle{mystyle}{
+    backgroundcolor=\color{backcolour},   
+    commentstyle=\color{codegreen},
+    keywordstyle=\color{magenta},
+    numberstyle=\tiny\color{codegray},
+    stringstyle=\color{codepurple},
+    basicstyle=\ttfamily\footnotesize,
+    breakatwhitespace=false,         
+    breaklines=true,                 
+    captionpos=b,                    
+    keepspaces=true,                 
+    numbers=left,                    
+    numbersep=5pt,                  
+    showspaces=false,                
+    showstringspaces=false,
+    showtabs=false,                  
+    tabsize=2
+}
+
+\lstset{style=mystyle}
+
+% Header and footer
+\pagestyle{fancy}
+\fancyhf{}
+\lhead{CYB2200 - Secure Coding And Analysis}
+\rhead{Week 1 - Monday Notes}
+\rfoot{Page \thepage}
+
+% Document
+\begin{document}
+
+\title{CYB2200 - Secure Coding And Analysis\\Week 1 Notes}
+\author{Course Notes}
+\date{August 25, 2025}
+\maketitle
+
+\tableofcontents
+\newpage
+
+\section{Lecture 1: Jia Song}
+
+\subsection{Instructor Information}
+\begin{itemize}
+    \item Jia Song has PhD in Computer Science
+    \item Email: \href{mailto:Jsong@uidaho.edu}{Jsong@uidaho.edu} (Preferred)
+    \item Office: JEB 340
+    \item In email use ``[CYB2200] YOUR SUBJECT HERE'' for subject
+    \item MWF 9:30 - 10:20, labs on Friday
+\end{itemize}
+
+\subsection{Why?}
+\begin{itemize}
+    \item So we can write robust code
+    \item This class is required
+    \item Find vulnerabilities before criminals
+\end{itemize}
+
+\subsection{What?}
+
+\subsubsection{SPP: Secure Programming Practices}
+\begin{itemize}
+    \item Principles of Secure Programming
+    \item Robust Programming
+    \item Defensive Programming
+    \item Programming Flaws
+    \item Static Analysis
+    \item Different Programming Languages
+\end{itemize}
+
+\subsubsection{SSA: Software Security Analysis}
+\begin{itemize}
+    \item Testing Methodologies
+    \item Static and Dynamic Analysis Techniques
+    \item Sandboxing
+    \item Common Analysis Tools and Methods
+\end{itemize}
+
+\subsubsection{QAT: QA/Functional Testing}
+\begin{itemize}
+    \item Testing Methodologies
+    \item Test Coverage Analysis
+    \item Automatic and Manual Generation of Test Inputs
+    \item Test Execution
+\end{itemize}
+
+\subsubsection{Bonus: STRIDE}
+\begin{description}
+    \item[S:] Spoofing identity
+    \item[T:] Tampering with data
+    \item[R:] Repudiation
+    \item[I:] Information disclosure
+    \item[D:] Denial of service
+    \item[E:] Elevation of privilege
+\end{description}
+
+\subsection{Deliverables}
+\begin{itemize}
+    \item Produce Software Security Analysis tools and techniques
+    \item Apply knowledge to perform Software Security Analysis using common tools
+    \item etc.
+\end{itemize}
+
+\section{Lecture 2: Basic Security Concepts}
+
+\subsection{Computer System, Computer Security, CIA Triad}
+
+\subsubsection{Computer Security}
+\begin{itemize}
+    \item The protection of the items you value
+\end{itemize}
+
+\subsubsection{Computer Systems}
+\begin{itemize}
+    \item Hardware
+    \item Software
+    \item Data
+\end{itemize}
+
+\subsubsection{CIA Triad}
+\begin{description}
+    \item[\textbf{Confidentiality}:] Ability of a system to ensure that an asset is viewed only by authorized parties
+    \item[\textbf{Integrity}:] Ability of a system to ensure that an asset can only be modified by authorized parties
+    \item[\textbf{Availability}:] Ability of a system to ensure that an asset can be used by any authorized parties
+\end{description}
+
+Computer security seeks to prevent unauthorized viewing (\textbf{confidentiality}) or modification (\textbf{integrity}) of data while preserving access (\textbf{availability}).
+
+\subsection{Vulnerability, Threat, Risk, Attack, Countermeasure}
+
+\begin{description}
+    \item[\textbf{Vulnerability}:] A weakness in an information system, security system, procedures, internal controls, or implementation that could be exploited or triggered by a threat source [NIST]
+    
+    \item[\textbf{Threat}:] A computing system is a set of circumstances that has the potential to cause loss or harm
+    
+    \item[\textbf{Risk/Harm}:]
+    \begin{itemize}
+        \item Harm: negative consequence of an actualized threat
+        \item Risk: Possibility of harm
+    \end{itemize}
+    
+    \item[\textbf{Attack}:] A human that exploits a vulnerability is an attack on a system
+    
+    \item[\textbf{Exploit}:] Is a piece of software, data, or sequence of commands that takes advantage of a vulnerability to cause unintended/unanticipated behavior to occur
+    
+    \item[\textbf{Countermeasure}:] Things that prevent threats
+\end{description}
+
+\subsubsection{Attack}
+An Attack is an attempt to gain unauthorized access to anything.
+
+\begin{description}
+    \item[\textbf{Passive attack}:] Attempt to collect, learn or use the info in the system, does not affect the system
+    
+    \item[\textbf{Active attack}:] Attempt to alter system resources or change their operations
+    
+    \item[\textbf{Insider attack}:] Attacks initiated by an insider who is authorized to access system resources
+    
+    \item[\textbf{Outside attack}:] Attacks initiated by an outsider, usually an unauthorized user of the target systems
+\end{description}
+
+\subsubsection{Controls/Countermeasures}
+Prevent threats from exercising vulnerabilities (before or after the fact):
+
+\begin{itemize}
+    \item \textbf{Prevent} it, by blocking the attack or closing the vulnerability
+    \item \textbf{Deter} it, by making the attack harder but not impossible
+    \item \textbf{Deflect} it, by making another target more attractive
+    \item \textbf{Mitigate} it, by making its impact less severe
+    \item \textbf{Detect} it, by either as it happens or some time after the fact
+    \item \textbf{Recover} from an attack's effects
+\end{itemize}
+
+\subsection{Identification and Authentication and Access Control}
+
+Someone is authorized to take some action on something.
+
+\subsubsection{Someone}
+Who is the person?
+
+\begin{description}
+    \item[\textbf{Identification}:] The act of asserting who a person is
+    
+    \item[\textbf{Identity}:] The set of physical and behavioral characteristics by which an individual is uniquely recognizable [NIST]
+    
+    These can be public or well known or predictable:
+    \begin{itemize}
+        \item Email
+        \item Student ID
+        \item Employee ID
+    \end{itemize}
+    
+    \item[\textbf{Authentication}:] The act of proving that asserted identity. Auth should be private and well protected.
+\end{description}
+
+\subsubsection{Authentication Mechanisms}
+
+\begin{itemize}
+    \item Something the user \textbf{has}: A physical object (id card) in the person's possession
+    
+    \item Something the user \textbf{knows}: Passwords, SSN, PIN
+    
+    \item Something the user \textbf{is}: Fingerprints, retina, face, voice, etc.
+    
+    \item Something that uses more than one of these is a \textbf{MFA} or multi-factor authentication
+\end{itemize}
+
+\subsubsection{Access Control}
+
+A subject is permitted to access an object in a particular mode, and only such authorized accesses are allowed.
+
+\begin{description}
+    \item[\textbf{Subject}:] Human users
+    \item[\textbf{Object}:] Things on which an action can be performed
+    \item[\textbf{Access Mode}:] Any controllable actions
+\end{description}
+
+\paragraph{Policies}
+\begin{itemize}
+    \item \textbf{Access control policies} indicate what types of access are permitted, under what circumstances, and by whom
+    \item \textbf{Authorization} is the process of determining whether a user is permitted to perform a specific operation
+\end{itemize}
+
+\subsection{Software Development Cycle}
+
+Software development life cycle describes phases of the software development cycle and the order in which those phases are executed. Each phase produces deliverables required for the next phase.
+
+Security should be considered as early as possible:
+\begin{enumerate}
+    \item \textbf{Planning}
+    \item \textbf{Analysis}
+    \item \textbf{Design}
+    \item \textbf{Implementation}
+    \item \textbf{Testing and Integration}
+    \item \textbf{Maintenance}
+\end{enumerate}
+
+\subsubsection{Terminology}
+\begin{description}
+    \item[\textbf{Software Bugs}:] Errors, flaws, mistakes, or oversights in programs
+    \item[\textbf{Software Vulnerabilities}:] Specific flaws that allow attack vectors
+    \item[\textbf{Malware}:] Software that has mal-intent
+\end{description}
+
+\section{Lecture 2: Continuing Basic Concepts}
+
+\subsection{Robust Programming}
+
+A style of programming that prevents abnormal termination or unexpected actions.
+\begin{itemize}
+    \item Handles bad inputs gracefully
+    \item Detects internal errors and handles them gracefully
+\end{itemize}
+
+\subsection{The Philosophy of Secure Programming}
+
+\begin{enumerate}
+    \item Remember what you have learned in the programming classes:
+    \begin{itemize}
+        \item Check user input
+        \item Check your bounds
+        \item Assume an error will occur and handle it properly
+        \begin{itemize}
+            \item What could someone deliberately do to compromise your program? (Adversary thinking)
+            \item What could someone unintentionally do to compromise your program? (People make mistakes)
+        \end{itemize}
+    \end{itemize}
+    
+    \item Defensive Programming:
+    \begin{itemize}
+        \item Input validation, type checking
+        \item Cover all cases - use defaults to handle cases not explicitly covered
+        \item Catch and handle exceptions at the lowest level possible
+    \end{itemize}
+    
+    \item Understand the environment in which your program will be used:
+    \begin{itemize}
+        \item Programs interact with people and with the system
+    \end{itemize}
+    
+    \item Understand the procedures under which people will use your program:
+    \begin{itemize}
+        \item The best program if installed incorrectly can compromise the system
+        \item The best program if configured incorrectly can also cause problems
+    \end{itemize}
+\end{enumerate}
+
+\subsection{How Do We Manage Software Vulnerabilities?}
+\begin{itemize}
+    \item Design and implement systems to avoid them
+    \item Analyze and test systems to find them
+    \item Add mitigation techniques to address them
+\end{itemize}
+
+\subsection{Summary}
+
+\begin{itemize}
+    \item Computer security is the protection of the items you value, called the assets of an information system
+    
+    \item Confidentiality, integrity, and availability (CIA triad) are the three basic security objectives
+    
+    \item Computer security seeks to prevent unauthorized viewing (confidentiality) or modification (integrity) of data while preserving access (availability)
+    
+    \item Definitions: vulnerability, threat, control/countermeasure, harm, risk, attack
+    
+    \item Identification and authentication
+    
+    \item Authorization, Access control
+    
+    \item Software bugs/vulnerabilities, SDLC
+    
+    \item Robust programming, Defensive programming
+\end{itemize}
+
+\section{Lecture 3: C-style Strings}
+
+\subsection{Warm-up}
+\begin{itemize}
+    \item In C++:
+    \begin{itemize}
+        \item Do you use arrays? --- yes
+        \item Do you use strings? --- yes
+    \end{itemize}
+    \item In C:
+    \begin{itemize}
+        \item The only way is char array
+    \end{itemize}
+\end{itemize}
+
+\subsection{Why C?}
+\begin{itemize}
+    \item Developed in 1970 when security was not a concern
+    \item Many common vulnerabilities
+    \begin{itemize}
+        \item Some of the weak points do not exist in other languages, so we use C to get exposed to these
+    \end{itemize}
+    \item Many legacy code running C
+    \item Many existing software/systems were written in C/C++, which is still widely used
+\end{itemize}
+
+\subsection{C-strings}
+
+Strings are not a built-in data type in C. In C, they are char arrays terminated by a NUL char (0x00).
+
+\begin{lstlisting}[language=C, caption=Example C String Usage]
+int main()
+{
+    int scores[10];
+    char name[100];
+    int number_of_score = 0;
+    double average = 0;
+    int sum = 0;
+    char grade = 'X';
+    char comments[5] = "NONE";
+}
+\end{lstlisting}
+
+\subsection{Examples}
+
+\begin{lstlisting}[language=C, caption=Example 1]
+char name[100] = "username";
+cout << "size of name is: " << sizeof(name) << endl;
+// output = 100
+\end{lstlisting}
+
+\begin{lstlisting}[language=C, caption=Example 2]
+char str[] = "hello";
+cout << "size of str is: " << sizeof(str) << endl;
+// output = 6
+\end{lstlisting}
+
+\begin{lstlisting}[language=C, caption=Example 3]
+char str2[5] = "hello";
+cout << "size of str is: " << sizeof(str2) << endl;
+// compiler warning
+\end{lstlisting}
+
+When a char array is created, the null terminator is automatically added.
+
+\subsection{Two Major Problems with C Strings}
+
+\begin{enumerate}
+    \item \textbf{The length of the string and the size of the array}
+    \begin{itemize}
+        \item If the string is bigger than the array we have a buffer overflow
+    \end{itemize}
+    
+    \item \textbf{The NUL terminator}
+    \begin{itemize}
+        \item NUL char is marking the end of a string
+        \item If it is missing, functions can continue reading chars
+    \end{itemize}
+\end{enumerate}
+
+\subsection{NULL != NUL}
+
+\begin{description}
+    \item[\textbf{NUL}:] Null char, null terminator
+    \begin{itemize}
+        \item It is a char
+        \item Indicates the end of a string char array
+    \end{itemize}
+    
+    \item[\textbf{NULL}:] A macro
+    \begin{itemize}
+        \item Indicates a pointer doesn't have address
+    \end{itemize}
+\end{description}
+
+\subsection{C Handling Vulnerabilities}
+
+Unsafe use of handful of functions:
+
+\begin{description}
+    \item[\textbf{Unbounded string Functions}:] (example: copy function)
+    \begin{itemize}
+        \item The destination buffer's size isn't taken into account at all
+        \item Buffer overflow (source data's length exceeds the destination's buffer size)
+    \end{itemize}
+    
+    \item[\textbf{Bounded String functions}:] 
+    \begin{itemize}
+        \item Safer option to unbounded
+        \item They handle lengths
+    \end{itemize}
+\end{description}
+
+\subsection{Printf() in C}
+
+\begin{itemize}
+    \item \verb|%d| = decimal
+    \item \verb|%x| = address
+\end{itemize}
+
+\begin{lstlisting}[language=C, caption=Printf Examples]
+printf("hello world!\n");
+printf("a has value: %d\n", a);
+printf("a has value: %d\n, b has value: %d\n", a, b);
+printf("a has value: %d\n, b has value: %d\n, c is at address: %x\n", a, b, &c);
+\end{lstlisting}
+
+\texttt{int printf(const char *format, ...)}
+
+The \texttt{...} indicates that zero or more optional args can be provided.
+
+\begin{table}[h]
+\centering
+\begin{tabular}{@{}lll@{}}
+\toprule
+\textbf{Parameter} & \textbf{Meaning} & \textbf{Passed as} \\ \midrule
+\verb|%d| & decimal (int) & value \\
+\verb|%u| & unsigned decimal (unsigned int) & value \\
+\verb|%x| & hexadecimal (unsigned int) & value \\
+\verb|%s| & string ((const) (unsigned) char *) & reference \\
+\verb|%n| & number of bytes written so far, (* int) & reference \\ \bottomrule
+\end{tabular}
+\caption{Printf Format Specifiers}
+\end{table}
+
+\subsection{Unbounded String Functions}
+
+\subsubsection{scanf() - Reading Input}
+
+\begin{description}
+    \item[\textbf{Function}:] \texttt{int scanf(const char *format, ...)}
+    \item[\textbf{Purpose}:] The \texttt{scanf()} function parses input according to the format argument.
+\end{description}
+
+\begin{lstlisting}[language=C, caption=scanf Example]
+#include <stdio.h>
+
+int main() {
+    char name[20];
+    scanf("%s", name);
+    printf("Your name is: %s", name);
+    return 0;
+}
+// This program demonstrates the use of scanf() to read a string input.
+// It is important to ensure that the input does not exceed the buffer size.
+// scanf() can be used with a maximum field width to prevent buffer overflow.
+\end{lstlisting}
+
+\subsubsection{sprintf() - Reading Input}
+
+\begin{description}
+    \item[\textbf{Function}:] \texttt{int sprintf(char *str, const char *format, ...)}
+    \item[\textbf{Purpose}:] The \texttt{sprintf()} functions print a formatted string into a destination buffer.
+\end{description}
+
+\begin{lstlisting}[language=C, caption=sprintf Example]
+#include <stdio.h>
+
+int main() {
+    char buffer[20];
+    int a = 5, b = 3, k;
+
+    k = sprintf(buffer, "%d plus %d is %d", a, b, a+b);
+    printf("[%s] is a string, its length is %d. \n", buffer, k);
+
+    return 0;
+}
+// "5 plus 3 is 8", is a string, its length is 13
+\end{lstlisting}
+
+\section{Metadata/Metacharacters}
+
+\subsection{Metadata}
+
+Metadata accompanies the main data and provides info about it.
+
+\subsubsection{Problems}
+\begin{itemize}
+    \item \textbf{Embedded delimiters}: Delimiters are used to denote the termination of a field
+    \item \textbf{Truncation}
+\end{itemize}
+
+\subsection{Filtering}
+
+Three options:
+\begin{enumerate}
+    \item Detect erroneous input and reject what appears to be an attack
+    \item Detect and strip dangerous characters
+    \item Detect and encode dangerous character with a metacharacter escape sequence
+\end{enumerate}
+
+\subsection{Eliminating Metacharacters}
+
+\begin{description}
+    \item[\textbf{Reject illegal requests}:]
+    \begin{itemize}
+        \item Any request containing illegal metacharacters is simply discarded; processing terminates
+        \item Fewer things can go wrong in the handling
+        \item The application may be unfriendly
+    \end{itemize}
+    
+    \item[\textbf{Strip dangerous characters}:]
+    \begin{itemize}
+        \item Filters modify the input to get rid of any violations
+        \item Filters need to be implemented carefully
+        \begin{itemize}
+            \item Blacklist (like a ban)
+            \item Whitelist (only some allowed)
+        \end{itemize}
+    \end{itemize}
+    
+    \item[\textbf{Encoding metacharacters (escaping)}:]
+\end{description}
+
+\section{Types}
+
+\subsection{Typed vs Untyped Languages}
+
+\begin{itemize}
+    \item C/C++: Strictly typed
+    \item JavaScript/Python: Untyped
+\end{itemize}
+
+\subsection{Data Types}
+
+\subsubsection{Primary}
+\begin{itemize}
+    \item Integer
+    \item Char
+    \item Bool
+    \item Floating Point
+    \item Double floating point
+    \item void
+    \item wide char
+\end{itemize}
+
+\subsubsection{Derived}
+\begin{itemize}
+    \item Function
+    \item Array
+    \item Pointer
+    \item Reference
+\end{itemize}
+
+\subsubsection{User Defined}
+\begin{itemize}
+    \item class
+    \item struct
+    \item union
+    \item enum
+    \item typedef
+\end{itemize}
+
+\subsection{Why Do We Need Types?}
+
+\begin{itemize}
+    \item In our eyes, it's easy to remember what stuff is:
+    \begin{itemize}
+        \item \texttt{int i = 90}
+        \item \texttt{double k = 4.90}
+        \item \texttt{char c = 'c'}
+    \end{itemize}
+    \item But for the compiler, types are used to determine memory space
+    \item It also tells the compiler how to process the data
+\end{itemize}
+
+\subsection{Data Storage}
+
+C data types:
+
+\begin{description}
+    \item[\textbf{char, signed/unsigned char}:] 1 byte of storage
+    
+    \item[\textbf{Int}:]
+    \begin{itemize}
+        \item short int --- 2 bytes
+        \item int --- 4 bytes
+        \item long int --- 4/8 bytes
+        \item long long int --- 8 bytes
+    \end{itemize}
+    
+    \item[\textbf{Floats}:]
+    \begin{itemize}
+        \item float --- 4 bytes
+        \item double --- 8 bytes
+        \item long double --- 12 bytes
+    \end{itemize}
+\end{description}
+
+\subsubsection{Signed Ints vs Unsigned Ints}
+
+\begin{itemize}
+    \item 1 byte = 8 bits
+    \item 8 bits can hold 0--255 unsigned
+    \item 8 bits can hold $-128$ to $127$ signed
+\end{itemize}
+
+\subsection{Int Representation}
+
+\subsubsection{Signed and Magnitude}
+\begin{itemize}
+    \item The sign of the number is stored in the sign bit
+    \item 0 $\rightarrow$ positive
+    \item 1 $\rightarrow$ negative
+    \item Problem: 00000000 = positive 0, 10000000 = negative 0 (invalid)
+\end{itemize}
+
+\subsubsection{Two's Complement}
+\begin{itemize}
+    \item The sign bit is 1 if the number is negative and 0 if the number is positive
+    \item Positive values can be read directly from the value bits
+    \item Negative values can't be read directly; the whole number must be negated first
+    \item In ones complement, a number is negated by inverting all its bits
+\end{itemize}
+
+\section{Integer Overflow/Underflow}
+
+\textit{[Note: This section was indicated in the original notes but not detailed]}
+
+\section{Problems with Type Conversions}
+
+\subsection{Type Conversion}
+
+We want to convert one data type to another:
+
+\begin{description}
+    \item[\textbf{Explicit type conversions}:] The program knows
+    \item[\textbf{Implicit type conversions}:] The compiler does it behind the scenes
+\end{description}
+
+\begin{itemize}
+    \item Conversions can lead to lost or misinterpreted data
+    \item Conversion rules --- the general rules C uses when converting between types:
+    \begin{itemize}
+        \item Simple conversions
+        \item Integer promotions
+        \item Arithmetic conversions
+    \end{itemize}
+\end{itemize}
+
+\subsection{Conversion Rules}
+
+\subsubsection{Simple Conversions}
+
+\begin{enumerate}
+    \item Casts
+    \begin{lstlisting}[language=C]
+int age; // is a cast
+    \end{lstlisting}
+    
+    \item Assignment statements
+    \begin{lstlisting}[language=C]
+short int fred;
+int bob = -10;
+fred = bob;
+    \end{lstlisting}
+    
+    \item Type conversion function arguments
+    \begin{lstlisting}[language=C]
+int dostuff(int num, unsigned int length);
+
+void func(void) {
+    char a = 42;
+    unsigned short b = 43;
+    long long int c;
+
+    c = dostuff(a,b); // vars are converted to the needed type
+}
+    \end{lstlisting}
+    
+    \item Type conversions function returns
+    \begin{lstlisting}[language=C]
+char func(void) 
+{
+    int a = 42;
+    return a; // need char, a = int, so type converts
+}
+    \end{lstlisting}
+\end{enumerate}
+
+\subsubsection{Simple Conversion Rules}
+
+\begin{description}
+    \item[\textbf{Value-preserving conversion}:] If the new data type can match all possible values of the old type, the conversion is said to be value preserving
+    
+    \item[\textbf{Value changing conversion}:] The old type can contain values that can't be represented with the new
+\end{description}
+
+\subsection{Int Types}
+
+\subsubsection{Widening}
+Converting from a narrow type to a wider type.
+
+The machine typically copies the bit pattern from the old var to the new one, then fills the rest of the value bits with 1s or 0s depending on the type:
+
+\begin{description}
+    \item[\textbf{Zero extension}:] If the source is unsigned, propagates the value 0 to all high bits
+    \item[\textbf{Sign extension}:] If the source is signed, propagates the sign bit to all high bits
+\end{description}
+
+\subsubsection{Narrowing}
+When converting from a wider data type to a narrower type, the machine uses only one mechanism: truncation.
+
+\subsection{Int Conversion Errors}
+
+Example:
+\begin{itemize}
+    \item \texttt{juice = apple + orange} (valid)
+    \item \texttt{if (apple > orange)} (??? what do we compare?)
+\end{itemize}
+
+Hence: hidden type conversions $\rightarrow$ transform both operands into a comparable data type.
+
+\subsubsection{When Does This Happen?}
+\begin{itemize}
+    \item Arithmetic: \texttt{+, -, *, /, \%, ...}
+    \item Relational/equality: \texttt{<, >, <=, >=, ==, !=}
+    \item Bitwise: \texttt{\&}, etc.
+\end{itemize}
+
+\subsection{Integer Promotions}
+
+\begin{itemize}
+    \item Int types smaller than int are promoted when an operation is performed on them
+    \item Promoted types (if result is int):
+    \begin{itemize}
+        \item unsigned/signed char
+        \item unsigned/signed short
+    \end{itemize}
+\end{itemize}
+
+\subsection{Conversion Rules}
+
+\subsubsection{Rule 1: Floating Points Take Precedence}
+\begin{itemize}
+    \item If one arg is a floating point, the other arg is converted
+    \item If one floating point is less precise than the other, it is converted to be more precise
+\end{itemize}
+
+\end{document}

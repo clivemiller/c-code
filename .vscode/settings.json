@@ -55,9 +55,12 @@
         "stdexcept": "cpp",
         "streambuf": "cpp",
         "typeinfo": "cpp",
-        "arraycalculator.h": "c"
+        "arraycalculator.h": "c",
+        "types.h": "c"
     },
     "cSpell.words": [
+        "clivemi",
+        "intitial",
         "Kenobi",
         "readelf",
         "rodata"
