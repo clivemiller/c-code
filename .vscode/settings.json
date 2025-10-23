@@ -56,7 +56,8 @@
         "streambuf": "cpp",
         "typeinfo": "cpp",
         "arraycalculator.h": "c",
-        "types.h": "c"
+        "types.h": "c",
+        "stdbool.h": "c"
     },
     "cSpell.words": [
         "clivemi",
