@@ -1,0 +1,28 @@
+Got it, Clive. Here are the inputs with their expected results (or the exact reason they should be rejected).
+
+# Functional tests
+
+* `220+cyb` → `okn`
+* `CYBERsecurity-5` → `XTWZMnzxpmdot`
+* `6*zzzz` → `zzzzzzzzzzzzzzzzzzzzzzzz` (24 `z`s)
+* `CYB*220` → `"CYB"` repeated 220 times (660 chars total) 
+* `Cybersecurity/8` → `Cyber`
+* `20/Cybersecurity` → `""` (empty string)
+* `100%7` → `2`
+
+# Security/invalid tests
+
+* `2000000000+300000000` → **Reject:** integer overflow on addition.
+* `123+4000000000` → **Reject:** number out of `int` range (> `INT_MAX`).
+* `77777*100000` → **Reject:** integer overflow on multiplication.
+* `-acb123` → **Reject:** invalid format (leading `-` not allowed; not two operands with one operator).
+* `abcde*500,` → **Reject:** illegal character `,` (comma).
+  *(Note: without the comma, `abcde*500` would trigger “result string is too long” and return the first 1024 chars.)*
+* `9+abc;def` → **Reject:** illegal character `;`.
+* `123+5+6+7` → **Reject:** more than one operator.
+* `Abc-xyz` → **Reject:** two string operands are not allowed.
+* `8000000000+1` → **Reject:** number out of `int` range (> `INT_MAX`).
+* `3*` + `(>100 'a's)` → **Reject:** string operand exceeds 100-character limit.
+* `500%0` → **Reject:** modulo by zero.
+* `Abc%4` → **Reject:** `%` not allowed for string–int operations.
+* `3 + 0` → **Reject:** whitespace not allowed.

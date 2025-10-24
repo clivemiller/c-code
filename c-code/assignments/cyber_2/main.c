@@ -24,8 +24,8 @@ void main()
         char opType = getOperationType(input);
         char left[101];
         char right[101];
-        int num1;
-        int num2;
+        signed int num1;
+        signed int num2;
         char charInput[101];
         bool isStrOP = false;
 
@@ -37,22 +37,22 @@ void main()
                 printf("%s\n", "Invalid Input! Ensure you have two numbers or a number and a string with a valid operation.");
                 break;
             case 1:
-                num1 = atoi(left); 
-                num2 = atoi(right);
+                num1 = (signed int)atoi(left); 
+                num2 = (signed int)atoi(right);
                 break;
             case 2:
-                num1 = atoi(left); 
+                num1 = (signed int)atoi(left); 
                 strcpy(charInput, right);
                 isStrOP = true;
                 break;
             case 3:
                 strcpy(charInput, left); 
-                num1 = atoi(right);
+                num1 = (signed int)atoi(right);
                 isStrOP = true;
                 break;
         }
 
-        int ans;
+        signed int ans;
         bool errorOperating = false;
 
         switch (opType) {

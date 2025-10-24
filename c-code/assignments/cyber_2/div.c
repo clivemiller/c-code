@@ -18,5 +18,7 @@ bool modNum(int Num1, int Num2, int* ans)
 
 void divModString(int Num, int len, char InputString[]) 
 {
-
+    for (int i = 0; i < Num; i++) {
+        InputString[len-i] = '\0';
+    }
 };
