@@ -11,18 +11,17 @@ bool subNum(int Num1, int Num2, int* ans)
 
 void subModString(int Num, int len, char InputString[]) 
 {
-    for (int i = 0; i < Num; i++) 
+    // Shift each letter left by Num positions in the alphabet
+    int shift = Num % 26;  // Only need to shift by remainder when divided by 26
+    
+    for (int i = 0; i < len; i++) 
     {
-        // Save the first character
-        char first = InputString[0];
-        
-        // Shift chars one to the left
-        for (int j = 0; j < len; j++)
-        {
-            InputString[j] = InputString[j + 1];
+        if (InputString[i] >= 'a' && InputString[i] <= 'z') {
+            // Lowercase letter
+            InputString[i] = 'a' + (InputString[i] - 'a' - shift + 26) % 26;
+        } else if (InputString[i] >= 'A' && InputString[i] <= 'Z') {
+            // Uppercase letter
+            InputString[i] = 'A' + (InputString[i] - 'A' - shift + 26) % 26;
         }
-        
-        // Put the last character at the front
-        InputString[len] = first;
     }
 };

@@ -1,6 +1,8 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
+#include <stdbool.h>
+#include <ctype.h>
 #include "./main.h"
 #include "./parser.h"
 
@@ -20,8 +22,19 @@ void main()
             break;
         }
 
+        // Validate input characters first
+        if (!validateInputCharacters(input)) {
+            printf("Error: Input contains invalid characters. Only digits (0-9), letters (a-z, A-Z), and operators (+, -, *, /, %%) are allowed.\n\n");
+            continue;
+        }
+
         // get op Type
         char opType = getOperationType(input);
+        if (opType == '0') {
+            printf("Error: No valid operator found in input.\n\n");
+            continue;
+        }
+
         char left[101];
         char right[101];
         signed int num1;
@@ -34,8 +47,8 @@ void main()
         
         switch (operationNum) {
             case 0: 
-                printf("%s\n", "Invalid Input! Ensure you have two numbers or a number and a string with a valid operation.");
-                break;
+                printf("%s\n\n", "Invalid Input! Ensure you have two numbers or a number and a string with a valid operation.");
+                continue;
             case 1:
                 num1 = (signed int)atoi(left); 
                 num2 = (signed int)atoi(right);
@@ -53,7 +66,9 @@ void main()
         }
 
         signed int ans;
+        char multCharOutput[1025];  // 1024 + null terminator
         bool errorOperating = false;
+        bool isMult = false;
 
         switch (opType) {
             // invalid
@@ -69,7 +84,7 @@ void main()
                 }
                 if (!addNum(num1, num2, &ans)) {
                     errorOperating = true;
-                    printf("%s\n", "Error adding numbers; invalid size.");
+                    printf("%s\n", "Error adding numbers; integer overflow detected.");
                 }
                 break;
             // -
@@ -81,7 +96,7 @@ void main()
                 }
                 if (!subNum(num1, num2, &ans)) {
                     errorOperating = true;
-                    printf("%s\n", "Error subtracting numbers; invalid size.");
+                    printf("%s\n", "Error subtracting numbers; integer overflow/underflow detected.");
                 }
                 break;
             // /
@@ -94,19 +109,20 @@ void main()
                 }
                 if (!divNum(num1, num2, &ans)) {
                     errorOperating = true;
-                    printf("%s\n", "Error dividing numbers; invalid numbers.");
+                    printf("%s\n", "Error dividing numbers; division by zero.");
                 }
                 break;
             // *
             case '*':
+                isMult = true;
                 printf("%s\n", "Operation type: *");
                 if (isStrOP) {
-                    multModString(num1, strlen(charInput), charInput);
+                    multModString(num1, strlen(charInput), charInput, multCharOutput);
                     break;
                 }
                 if (!multNum(num1, num2, &ans)) {
                     errorOperating = true;
-                    printf("%s\n", "Error multiplying numbers; invalid size.");
+                    printf("%s\n", "Error multiplying numbers; integer overflow detected.");
                 }
                 break;
             // % 
@@ -114,16 +130,22 @@ void main()
                 printf("%s\n", "Operation type: %");
                 if (!modNum(num1, num2, &ans)) {
                     errorOperating = true;
-                    printf("%s\n", "Error modding numbers; invalid numbers.");
+                    printf("%s\n", "Error modding numbers; modulo by zero.");
                 }
                 break;
         }
         if (!errorOperating) {
             if (isStrOP) {
-            printf("%s %s\n\n", "Output String is:", charInput);
+                if (isMult) {
+                    printf("%s %s\n\n", "Output String is:", multCharOutput);
+                } else {
+                    printf("%s %s\n\n", "Output String is:", charInput);
+                }
             } else {
                 printf("%s %d\n\n", "Output Number is:", ans);
             }
+        } else {
+            printf("\n");
         }
     }
 };

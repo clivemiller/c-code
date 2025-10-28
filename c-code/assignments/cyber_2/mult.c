@@ -11,11 +11,19 @@ bool multNum(int Num1, int Num2, int* ans)
 };
 
 
-void multModString(int Num, int len, char InputString[]) 
+void multModString(int Num, int len, char InputString[], char multCharOutput[]) 
 {
-    char copy[100];
-    strcpy(InputString, copy);
+    multCharOutput[0] = '\0';  // Initialize empty string
+    
     for (int i = 0; i < Num; i++) {
-        strcat(copy, InputString);
+        // Check if adding another copy would exceed 1024 characters
+        if (strlen(multCharOutput) + len > 1024) {
+            // Only add as much as possible to reach 1024
+            int remaining = 1024 - strlen(multCharOutput);
+            strncat(multCharOutput, InputString, remaining);
+            printf("Warning: Result string is too long. Truncated to 1024 characters.\n");
+            break;
+        }
+        strcat(multCharOutput, InputString);
     }
 };

@@ -1,28 +1,248 @@
-Got it, Clive. Here are the inputs with their expected results (or the exact reason they should be rejected).
+Please enter (1) two integers or (2) one integer and one string (up to
+100 characters, contains letters a-z and/or A-Z only). Enter everything in one
+line, separated by an operator (NO WHITESPACES): 
+220+cyb
+Operation type: +
+Output String is: okn
 
-# Functional tests
+Please enter (1) two integers or (2) one integer and one string (up to
+100 characters, contains letters a-z and/or A-Z only). Enter everything in one
+line, separated by an operator (NO WHITESPACES): 
+CYBERsecurity-5
+Operation type: -
+Output String is: XTWZMnzxpmdot
 
-* `220+cyb` → `okn`
-* `CYBERsecurity-5` → `XTWZMnzxpmdot`
-* `6*zzzz` → `zzzzzzzzzzzzzzzzzzzzzzzz` (24 `z`s)
-* `CYB*220` → `"CYB"` repeated 220 times (660 chars total) 
-* `Cybersecurity/8` → `Cyber`
-* `20/Cybersecurity` → `""` (empty string)
-* `100%7` → `2`
+Please enter (1) two integers or (2) one integer and one string (up to
+100 characters, contains letters a-z and/or A-Z only). Enter everything in one
+line, separated by an operator (NO WHITESPACES): 
+6*zzzz
+Operation type: *
+Output String is: zzzzzzzzzzzzzzzzzzzzzzzz
 
-# Security/invalid tests
+Please enter (1) two integers or (2) one integer and one string (up to
+100 characters, contains letters a-z and/or A-Z only). Enter everything in one
+line, separated by an operator (NO WHITESPACES): 
+CYB*220
+Operation type: *
+Output String is: CYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYB
 
-* `2000000000+300000000` → **Reject:** integer overflow on addition.
-* `123+4000000000` → **Reject:** number out of `int` range (> `INT_MAX`).
-* `77777*100000` → **Reject:** integer overflow on multiplication.
-* `-acb123` → **Reject:** invalid format (leading `-` not allowed; not two operands with one operator).
-* `abcde*500,` → **Reject:** illegal character `,` (comma).
-  *(Note: without the comma, `abcde*500` would trigger “result string is too long” and return the first 1024 chars.)*
-* `9+abc;def` → **Reject:** illegal character `;`.
-* `123+5+6+7` → **Reject:** more than one operator.
-* `Abc-xyz` → **Reject:** two string operands are not allowed.
-* `8000000000+1` → **Reject:** number out of `int` range (> `INT_MAX`).
-* `3*` + `(>100 'a's)` → **Reject:** string operand exceeds 100-character limit.
-* `500%0` → **Reject:** modulo by zero.
-* `Abc%4` → **Reject:** `%` not allowed for string–int operations.
-* `3 + 0` → **Reject:** whitespace not allowed.
+Please enter (1) two integers or (2) one integer and one string (up to
+100 characters, contains letters a-z and/or A-Z only). Enter everything in one
+line, separated by an operator (NO WHITESPACES): 
+Cybersecurity/8
+Operation type: /
+Output String is: Cyber
+
+Please enter (1) two integers or (2) one integer and one string (up to
+100 characters, contains letters a-z and/or A-Z only). Enter everything in one
+line, separated by an operator (NO WHITESPACES): 
+20/Cybersecurity
+Operation type: /
+Output String is: 
+
+Please enter (1) two integers or (2) one integer and one string (up to
+100 characters, contains letters a-z and/or A-Z only). Enter everything in one
+line, separated by an operator (NO WHITESPACES): 
+100%7
+Operation type: %
+Output Number is: 2
+
+Please enter (1) two integers or (2) one integer and one string (up to
+100 characters, contains letters a-z and/or A-Z only). Enter everything in one
+line, separated by an operator (NO WHITESPACES): 
+2000000000+300000000
+Operation type: +
+Error adding numbers; integer overflow detected.
+
+Please enter (1) two integers or (2) one integer and one string (up to
+100 characters, contains letters a-z and/or A-Z only). Enter everything in one
+line, separated by an operator (NO WHITESPACES): 
+123+4000000000
+Error: Second number is out of range [0, 2147483647].
+Invalid Input! Ensure you have two numbers or a number and a string with a valid operation.
+
+Please enter (1) two integers or (2) one integer and one string (up to
+100 characters, contains letters a-z and/or A-Z only). Enter everything in one
+line, separated by an operator (NO WHITESPACES): 
+77777*100000
+Operation type: *
+Error multiplying numbers; integer overflow detected.
+
+Please enter (1) two integers or (2) one integer and one string (up to
+100 characters, contains letters a-z and/or A-Z only). Enter everything in one
+line, separated by an operator (NO WHITESPACES): 
+-acb123
+Error: Empty operand detected.
+Invalid Input! Ensure you have two numbers or a number and a string with a valid operation.
+
+Please enter (1) two integers or (2) one integer and one string (up to
+100 characters, contains letters a-z and/or A-Z only). Enter everything in one
+line, separated by an operator (NO WHITESPACES): 
+abcde*500
+Operation type: *
+Warning: Result string is too long. Truncated to 1024 characters.
+Output String is: abcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcd
+
+Please enter (1) two integers or (2) one integer and one string (up to
+100 characters, contains letters a-z and/or A-Z only). Enter everything in one
+line, separated by an operator (NO WHITESPACES): 
+9+abc;def
+Error: Input contains invalid characters. Only digits (0-9), letters (a-z, A-Z), and operators (+, -, *, /, %) are allowed.
+
+Please enter (1) two integers or (2) one integer and one string (up to
+100 characters, contains letters a-z and/or A-Z only). Enter everything in one
+line, separated by an operator (NO WHITESPACES): 
+123+5+6+7
+Error: String contains invalid characters. Only a-z and A-Z allowed.
+Invalid Input! Ensure you have two numbers or a number and a string with a valid operation.
+
+Please enter (1) two integers or (2) one integer and one string (up to
+100 characters, contains letters a-z and/or A-Z only). Enter everything in one
+line, separated by an operator (NO WHITESPACES): 
+Abc-xyz
+Error: Two strings entered as operands. Only accept two integers or one integer and one string.
+Invalid Input! Ensure you have two numbers or a number and a string with a valid operation.
+
+Please enter (1) two integers or (2) one integer and one string (up to
+100 characters, contains letters a-z and/or A-Z only). Enter everything in one
+line, separated by an operator (NO WHITESPACES): 
+8000000000+1
+Error: First number is out of range [0, 2147483647].
+Invalid Input! Ensure you have two numbers or a number and a string with a valid operation.
+
+Please enter (1) two integers or (2) one integer and one string (up to
+100 characters, contains letters a-z and/or A-Z only). Enter everything in one
+line, separated by an operator (NO WHITESPACES): 
+3*aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+Error: String has more than 100 characters.
+Invalid Input! Ensure you have two numbers or a number and a string with a valid operation.
+
+Please enter (1) two integers or (2) one integer and one string (up to
+100 characters, contains letters a-z and/or A-Z only). Enter everything in one
+line, separated by an operator (NO WHITESPACES): 
+
+Error: No valid operator found in input.
+
+Please enter (1) two integers or (2) one integer and one string (up to
+100 characters, contains letters a-z and/or A-Z only). Enter everything in one
+line, separated by an operator (NO WHITESPACES): 
+500%0
+Operation type: %
+Error modding numbers; modulo by zero.
+
+Please enter (1) two integers or (2) one integer and one string (up to
+100 characters, contains letters a-z and/or A-Z only). Enter everything in one
+line, separated by an operator (NO WHITESPACES): 
+Abc%4
+Error: Modulo operation (%) requires two integers.
+Invalid Input! Ensure you have two numbers or a number and a string with a valid operation.
+
+Please enter (1) two integers or (2) one integer and one string (up to
+100 characters, contains letters a-z and/or A-Z only). Enter everything in one
+line, separated by an operator (NO WHITESPACES): 
+3 + 0
+Error: Input contains invalid characters. Only digits (0-9), letters (a-z, A-Z), and operators (+, -, *, /, %) are allowed.
+
+Please enter (1) two integers or (2) one integer and one string (up to
+100 characters, contains letters a-z and/or A-Z only). Enter everything in one
+line, separated by an operator (NO WHITESPACES): 
+abc+1
+Operation type: +
+Output String is: bcd
+
+Please enter (1) two integers or (2) one integer and one string (up to
+100 characters, contains letters a-z and/or A-Z only). Enter everything in one
+line, separated by an operator (NO WHITESPACES): 
+abc+26
+Operation type: +
+Output String is: abc
+
+Please enter (1) two integers or (2) one integer and one string (up to
+100 characters, contains letters a-z and/or A-Z only). Enter everything in one
+line, separated by an operator (NO WHITESPACES): 
+ABC+25
+Operation type: +
+Output String is: ZAB
+
+Please enter (1) two integers or (2) one integer and one string (up to
+100 characters, contains letters a-z and/or A-Z only). Enter everything in one
+line, separated by an operator (NO WHITESPACES): 
+abc-1
+Operation type: -
+Output String is: zab
+
+Please enter (1) two integers or (2) one integer and one string (up to
+100 characters, contains letters a-z and/or A-Z only). Enter everything in one
+line, separated by an operator (NO WHITESPACES): 
+abcd*2
+Operation type: *
+Output String is: abcdabcd
+
+Please enter (1) two integers or (2) one integer and one string (up to
+100 characters, contains letters a-z and/or A-Z only). Enter everything in one
+line, separated by an operator (NO WHITESPACES): 
+homework/3
+Operation type: /
+Output String is: homew
+
+Please enter (1) two integers or (2) one integer and one string (up to
+100 characters, contains letters a-z and/or A-Z only). Enter everything in one
+line, separated by an operator (NO WHITESPACES): 
+homework/8
+Operation type: /
+Output String is: 
+
+Please enter (1) two integers or (2) one integer and one string (up to
+100 characters, contains letters a-z and/or A-Z only). Enter everything in one
+line, separated by an operator (NO WHITESPACES): 
+10+20
+Operation type: +
+Output Number is: 30
+
+Please enter (1) two integers or (2) one integer and one string (up to
+100 characters, contains letters a-z and/or A-Z only). Enter everything in one
+line, separated by an operator (NO WHITESPACES): 
+100-50
+Operation type: -
+Output Number is: 50
+
+Please enter (1) two integers or (2) one integer and one string (up to
+100 characters, contains letters a-z and/or A-Z only). Enter everything in one
+line, separated by an operator (NO WHITESPACES): 
+5*6
+Operation type: *
+Output Number is: 30
+
+Please enter (1) two integers or (2) one integer and one string (up to
+100 characters, contains letters a-z and/or A-Z only). Enter everything in one
+line, separated by an operator (NO WHITESPACES): 
+20/4
+Operation type: /
+Output Number is: 5
+
+Please enter (1) two integers or (2) one integer and one string (up to
+100 characters, contains letters a-z and/or A-Z only). Enter everything in one
+line, separated by an operator (NO WHITESPACES): 
+2147483647+0
+Operation type: +
+Output Number is: 2147483647
+
+Please enter (1) two integers or (2) one integer and one string (up to
+100 characters, contains letters a-z and/or A-Z only). Enter everything in one
+line, separated by an operator (NO WHITESPACES): 
+2147483647+1
+Operation type: +
+Error adding numbers; integer overflow detected.
+
+Please enter (1) two integers or (2) one integer and one string (up to
+100 characters, contains letters a-z and/or A-Z only). Enter everything in one
+line, separated by an operator (NO WHITESPACES): 
+10/0
+Operation type: /
+Error dividing numbers; division by zero.
+
+Please enter (1) two integers or (2) one integer and one string (up to
+100 characters, contains letters a-z and/or A-Z only). Enter everything in one
+line, separated by an operator (NO WHITESPACES): 
+exit
+Breaking out of Program...
