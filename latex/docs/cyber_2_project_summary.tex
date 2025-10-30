@@ -1,0 +1,870 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[margin=1in]{geometry}
+\usepackage{listings}
+\usepackage{xcolor}
+
+% Code listing style
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+
+\lstdefinestyle{mystyle}{
+    backgroundcolor=\color{backcolour},   
+    commentstyle=\color{codegreen},
+    keywordstyle=\color{magenta},
+    numberstyle=\tiny\color{codegray},
+    stringstyle=\color{codepurple},
+    basicstyle=\ttfamily\footnotesize,
+    breakatwhitespace=false,         
+    breaklines=true,                 
+    captionpos=b,                    
+    keepspaces=true,                 
+    numbers=left,                    
+    numbersep=5pt,                  
+    showspaces=false,                
+    showstringspaces=false,
+    showtabs=false,                  
+    tabsize=2
+}
+
+\lstset{style=mystyle}
+
+\title{\textbf{Cyber Assignment 2: Integer and String Calculator}}
+\author{Project Summary}
+\date{October 28, 2025}
+
+\begin{document}
+
+\maketitle
+
+\section{Project Structure}
+
+\textbf{Files:}
+\begin{itemize}
+    \item main.c, main.h - Main program loop and operation dispatcher
+    \item parser.c, parser.h - Input parsing and validation
+    \item overFlowChecker.c, overFlowChecker.h - Overflow detection
+    \item add.c, sub.c, mult.c, div.c - Arithmetic operations
+    \item Makefile - Build configuration
+    \item tests.txt - Test cases
+\end{itemize}
+
+\section{Code}
+
+\begin{lstlisting}[language=C, caption=main.c]
+#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
+#include <stdbool.h>
+#include <ctype.h>
+#include "./main.h"
+#include "./parser.h"
+
+void main() 
+{
+    bool run = true;
+    while (run) {
+        // Read input
+        char input[113];
+        readSafeInput(input);
+        int len = strlen(input);
+
+        // exit case 
+        if(strcmp(input, "exit") == 0) {
+            run = false;
+            printf("%s\n", "Breaking out of Program...");
+            break;
+        }
+
+        // Validate input characters first
+        if (!validateInputCharacters(input)) {
+            printf("Error: Input contains invalid characters. Only digits (0-9), letters (a-z, A-Z), and operators (+, -, *, /, %%) are allowed.\n\n");
+            continue;
+        }
+
+        // get op Type
+        char opType = getOperationType(input);
+        if (opType == '0') {
+            printf("Error: No valid operator found in input.\n\n");
+            continue;
+        }
+
+        char left[101];
+        char right[101];
+        signed int num1;
+        signed int num2;
+        char charInput[101];
+        bool isStrOP = false;
+
+        parseTwoValues(input, left, right, opType);
+        int operationNum = getStrORNumOp(left, right, opType);
+        
+        switch (operationNum) {
+            case 0: 
+                printf("%s\n\n", "Invalid Input! Ensure you have two numbers or a number and a string with a valid operation.");
+                continue;
+            case 1:
+                num1 = (signed int)atoi(left); 
+                num2 = (signed int)atoi(right);
+                break;
+            case 2:
+                num1 = (signed int)atoi(left); 
+                strcpy(charInput, right);
+                isStrOP = true;
+                break;
+            case 3:
+                strcpy(charInput, left); 
+                num1 = (signed int)atoi(right);
+                isStrOP = true;
+                break;
+        }
+
+        signed int ans;
+        char multCharOutput[1025];  // 1024 + null terminator
+        bool errorOperating = false;
+        bool isMult = false;
+
+        switch (opType) {
+            case '+':
+                printf("%s\n", "Operation type: +");
+                if (isStrOP) {
+                    addModString(num1, strlen(charInput), charInput);
+                    break;
+                }
+                if (!addNum(num1, num2, &ans)) {
+                    errorOperating = true;
+                    printf("%s\n", "Error adding numbers; integer overflow detected.");
+                }
+                break;
+            case '-':
+                printf("%s\n", "Operation type: -");
+                if (isStrOP) {
+                    subModString(num1, strlen(charInput), charInput);
+                    break;
+                }
+                if (!subNum(num1, num2, &ans)) {
+                    errorOperating = true;
+                    printf("%s\n", "Error subtracting numbers; integer overflow/underflow detected.");
+                }
+                break;
+            case '/':
+                printf("%s\n", "Operation type: /");
+                if (isStrOP) {
+                    divModString(num1, strlen(charInput), charInput);
+                    break;
+                }
+                if (!divNum(num1, num2, &ans)) {
+                    errorOperating = true;
+                    printf("%s\n", "Error dividing numbers; division by zero.");
+                }
+                break;
+            case '*':
+                isMult = true;
+                printf("%s\n", "Operation type: *");
+                if (isStrOP) {
+                    multModString(num1, strlen(charInput), charInput, multCharOutput);
+                    break;
+                }
+                if (!multNum(num1, num2, &ans)) {
+                    errorOperating = true;
+                    printf("%s\n", "Error multiplying numbers; integer overflow detected.");
+                }
+                break;
+            case '%':
+                printf("%s\n", "Operation type: %");
+                if (!modNum(num1, num2, &ans)) {
+                    errorOperating = true;
+                    printf("%s\n", "Error modding numbers; modulo by zero.");
+                }
+                break;
+        }
+        if (!errorOperating) {
+            if (isStrOP) {
+                if (isMult) {
+                    printf("%s %s\n\n", "Output String is:", multCharOutput);
+                } else {
+                    printf("%s %s\n\n", "Output String is:", charInput);
+                }
+            } else {
+                printf("%s %d\n\n", "Output Number is:", ans);
+            }
+        } else {
+            printf("\n");
+        }
+    }
+};
+\end{lstlisting}
+
+\subsection{main.h}
+
+\begin{lstlisting}[language=C, caption=main.h]
+#include <stdio.h>
+#include <stdbool.h>
+
+bool addNum(signed int Num1, signed int Num2, signed int *ans);
+void addModString(int Num, int len, char InputString[]);
+
+bool subNum(signed int Num1, signed int Num2, signed int* ans);
+void subModString(int Num, int len, char InputString[]);
+
+bool multNum(signed int Num1, signed int Num2, signed int* ans);
+void multModString(int Num, int len, char InputString[], char multCharOutput[]);
+
+bool divNum(signed int Num1, signed int Num2, signed int* ans);
+bool modNum(signed int Num1, signed int Num2, signed int* ans);
+void divModString(int Num, int len, char InputString[]);
+\end{lstlisting}
+
+\subsection{parser.c}
+
+\begin{lstlisting}[language=C, caption=parser.c (Part 1/2)]
+#include <stdio.h>
+#include <stdbool.h>
+#include <string.h>
+#include <stdlib.h>
+#include <limits.h>
+
+// 0 is invalid, 1 is +, 2 is -, 3 is /, 4 is *, 5 is %
+char getOperationType(char input[])
+{
+    if (input == NULL) return 0;
+    for (int i = 0; input[i] != '\0'; ++i) {
+        char c = input[i];
+        switch (c) {
+            case '+': return c;
+            case '-': return c;
+            case '/': return c;
+            case '*': return c;
+            case '%': return c;
+            default: break;
+        }
+    }
+    return '0';
+}
+
+// Validate that input contains only allowed characters
+bool validateInputCharacters(char input[]) {
+    for (int i = 0; input[i] != '\0'; i++) {
+        char c = input[i];
+        // Allow: digits, letters (a-z, A-Z), and operators (+, -, *, /, %)
+        if (!((c >= '0' && c <= '9') || 
+              (c >= 'a' && c <= 'z') || 
+              (c >= 'A' && c <= 'Z') ||
+              c == '+' || c == '-' || c == '*' || c == '/' || c == '%')) {
+            return false;
+        }
+    }
+    return true;
+}
+
+// reads input. 
+void readSafeInput(char input[])
+{
+    // 100 chars and a int up to int max, 11 chars, plus a operator 1 char, plus null terminator, buffer 113 chars
+    char buff[113];
+    int max = sizeof(buff);
+    printf("Please enter (1) two integers or (2) one integer and one string (up to\n");
+    printf("100 characters, contains letters a-z and/or A-Z only). Enter everything in one\n");
+    printf("line, separated by an operator (NO WHITESPACES): \n");
+    
+    if (fgets(buff, max, stdin) != NULL) {
+        // Remove trailing newline if present
+        size_t len = strlen(buff);
+        if (len > 0 && buff[len-1] == '\n') {
+            buff[len-1] = '\0';
+        }
+        // Copy to output parameter
+        strcpy(input, buff);
+    }
+}; 
+
+// splits input into two values
+void parseTwoValues(char input[], char out1[], char out2[], char opType)
+{
+    int out1d_index = 0;
+    int out2d_index = 0;
+    bool firstDone = false;
+    
+    for (int i = 0; i < strlen(input); i++) {
+        if (!firstDone) {
+            if (input[i] == opType) {
+                firstDone = true;
+                continue;
+            }
+            out1[out1d_index++] = input[i];
+        } else {
+            out2[out2d_index++] = input[i];
+        }
+    }
+    out1[out1d_index] = '\0';
+    out2[out2d_index] = '\0';
+}; 
+\end{lstlisting}
+
+\begin{lstlisting}[language=C, caption=parser.c (Part 2/2)]
+// Validate that string contains only letters a-z and A-Z
+bool isValidString(char str[]) {
+    for (int i = 0; str[i] != '\0'; i++) {
+        if (!((str[i] >= 'a' && str[i] <= 'z') || (str[i] >= 'A' && str[i] <= 'Z'))) {
+            return false;
+        }
+    }
+    return true;
+}
+
+// Validate that string contains only digits
+bool isValidNumber(char str[]) {
+    for (int i = 0; str[i] != '\0'; i++) {
+        if (str[i] < '0' || str[i] > '9') {
+            return false;
+        }
+    }
+    return true;
+}
+
+// Check if number string is in valid range [0, INT_MAX]
+bool isNumberInRange(char str[]) {
+    if (strlen(str) == 0) return false;
+    
+    char* endptr;
+    long long val = strtoll(str, &endptr, 10);
+    
+    if (*endptr != '\0') return false;
+    
+    if (val < 0 || val > INT_MAX) {
+        return false;
+    }
+    
+    return true;
+}
+
+// 0 is invalid, 1 is two nums, 2 is num and char, 3 is char and num
+int getStrORNumOp(char out1[], char out2[], char opType)
+{
+    bool out1isNum = isValidNumber(out1);
+    bool out2isNum = isValidNumber(out2);
+    
+    if (strlen(out1) == 0 || strlen(out2) == 0) {
+        printf("Error: Empty operand detected.\n");
+        return 0;
+    }
+    
+    if (out1isNum && out2isNum) {
+        if (!isNumberInRange(out1)) {
+            printf("Error: First number is out of range [0, %d].\n", INT_MAX);
+            return 0;
+        }
+        if (!isNumberInRange(out2)) {
+            printf("Error: Second number is out of range [0, %d].\n", INT_MAX);
+            return 0;
+        }
+        return 1;  // two nums
+    }
+    
+    if (opType == '%') {
+        printf("Error: Modulo operation (%%) requires two integers.\n");
+        return 0;
+    }
+    
+    if (!out1isNum && !out2isNum) {
+        printf("Error: Two strings entered as operands. Only accept two integers or one integer and one string.\n");
+        return 0;
+    }
+    
+    if (out1isNum) {
+        if (!isNumberInRange(out1)) {
+            printf("Error: Number is out of range [0, %d].\n", INT_MAX);
+            return 0;
+        }
+        if (strlen(out2) > 100) {
+            printf("Error: String has more than 100 characters.\n");
+            return 0;
+        }
+        if (!isValidString(out2)) {
+            printf("Error: String contains invalid characters. Only a-z and A-Z allowed.\n");
+            return 0;
+        }
+        return 2;  // num and char
+    } else {
+        if (!isNumberInRange(out2)) {
+            printf("Error: Number is out of range [0, %d].\n", INT_MAX);
+            return 0;
+        }
+        if (strlen(out1) > 100) {
+            printf("Error: String has more than 100 characters.\n");
+            return 0;
+        }
+        if (!isValidString(out1)) {
+            printf("Error: String contains invalid characters. Only a-z and A-Z allowed.\n");
+            return 0;
+        }
+        return 3;  // char and num
+    }
+}
+\end{lstlisting}
+
+\subsection{parser.h}
+
+\begin{lstlisting}[language=C, caption=parser.h]
+#include <stdio.h>
+#include <stdbool.h>
+
+char getOperationType(char input[]); // 0 is invalid, +, -, /, *, %
+void readSafeInput(char input[]); // reads input. 
+bool parseTwoValues(char input[], char out1[], char out2[], char opType); // splits input into two values
+int getStrORNumOp(char out1[], char out2[], char opType); // 0 is invalid, 1 is two nums, 2 is num and char, 3 is char and num
+bool validateInputCharacters(char input[]);
+\end{lstlisting}
+
+\subsection{overFlowChecker.c}
+
+\begin{lstlisting}[language=C, caption=overFlowChecker.c]
+#include <stdio.h>
+#include <stdbool.h>
+#include <limits.h>
+#include "./overFlowChecker.h"
+
+bool isValidAddOp(int Num1, int Num2) {
+	if (Num2 > 0 && Num1 > INT_MAX - Num2) return false;
+	if (Num2 < 0 && Num1 < INT_MIN - Num2) return false;
+	return true;
+};
+
+bool isValidSubOp(int Num1, int Num2) 
+{
+	if (Num2 < 0 && Num1 > INT_MAX + Num2) return false;
+	if (Num2 > 0 && Num1 < INT_MIN + Num2) return false;
+	return true;
+};
+
+bool isValidMultOp(int Num1, int Num2) 
+{
+	if (Num1 == 0 || Num2 == 0) return true;
+	long long prod = (long long)Num1 * (long long)Num2;
+	if (prod > INT_MAX || prod < INT_MIN) return false;
+	return true;
+};
+
+bool isValidDivOrModOp(int Num1, int Num2) 
+{
+	if (Num2 == 0) return false;
+	if (Num1 == INT_MIN && Num2 == -1) return false;
+	return true;
+};
+\end{lstlisting}
+
+\subsection{overFlowChecker.h}
+
+\begin{lstlisting}[language=C, caption=overFlowChecker.h]
+#include <stdio.h>
+#include <stdbool.h>
+
+bool isValidAddOp(int Num1, int Num2);
+bool isValidSubOp(int Num1, int Num2);
+bool isValidMultOp(int Num1, int Num2);
+bool isValidDivOrModOp(int Num1, int Num2);
+\end{lstlisting}
+
+\subsection{add.c}
+
+\begin{lstlisting}[language=C, caption=add.c]
+#include <stdio.h>
+#include "./overFlowChecker.h"
+#include "./main.h"
+
+bool addNum(int Num1, int Num2, int* ans) 
+{
+    if (!isValidAddOp(Num1, Num2)) return false;
+    *ans = Num1+Num2;
+    return true;
+};
+
+void addModString(int Num, int len, char InputString[]) 
+{
+    // Shift each letter right by Num positions in the alphabet
+    int shift = Num % 26;  // Only need to shift by remainder when divided by 26
+    
+    for (int i = 0; i < len; i++) 
+    {
+        if (InputString[i] >= 'a' && InputString[i] <= 'z') {
+            // Lowercase letter
+            InputString[i] = 'a' + (InputString[i] - 'a' + shift) % 26;
+        } else if (InputString[i] >= 'A' && InputString[i] <= 'Z') {
+            // Uppercase letter
+            InputString[i] = 'A' + (InputString[i] - 'A' + shift) % 26;
+        }
+    }
+};
+\end{lstlisting}
+
+\subsection{sub.c}
+
+\begin{lstlisting}[language=C, caption=sub.c]
+#include <stdio.h>
+#include "./overFlowChecker.h"
+#include "./main.h"
+
+bool subNum(int Num1, int Num2, int* ans) 
+{
+    if (!isValidSubOp(Num1, Num2)) return false;
+    *ans = Num1-Num2;
+    return true;
+};
+
+void subModString(int Num, int len, char InputString[]) 
+{
+    // Shift each letter left by Num positions in the alphabet
+    int shift = Num % 26;  // Only need to shift by remainder when divided by 26
+    
+    for (int i = 0; i < len; i++) 
+    {
+        if (InputString[i] >= 'a' && InputString[i] <= 'z') {
+            // Lowercase letter
+            InputString[i] = 'a' + (InputString[i] - 'a' - shift + 26) % 26;
+        } else if (InputString[i] >= 'A' && InputString[i] <= 'Z') {
+            // Uppercase letter
+            InputString[i] = 'A' + (InputString[i] - 'A' - shift + 26) % 26;
+        }
+    }
+};
+\end{lstlisting}
+
+\subsection{mult.c}
+
+\begin{lstlisting}[language=C, caption=mult.c]
+#include <stdio.h>
+#include <string.h>
+#include "./overFlowChecker.h"
+#include "./main.h"
+
+bool multNum(int Num1, int Num2, int* ans) 
+{
+    if (!isValidMultOp(Num1, Num2)) return false;
+    *ans = Num1*Num2;
+    return true;
+};
+
+void multModString(int Num, int len, char InputString[], char multCharOutput[]) 
+{
+    multCharOutput[0] = '\0';  // Initialize empty string
+    
+    for (int i = 0; i < Num; i++) {
+        // Check if adding another copy would exceed 1024 characters
+        if (strlen(multCharOutput) + len > 1024) {
+            // Only add as much as possible to reach 1024
+            int remaining = 1024 - strlen(multCharOutput);
+            strncat(multCharOutput, InputString, remaining);
+            printf("Warning: Result string is too long. Truncated to 1024 characters.\n");
+            break;
+        }
+        strcat(multCharOutput, InputString);
+    }
+};
+\end{lstlisting}
+
+\subsection{div.c}
+
+\begin{lstlisting}[language=C, caption=div.c]
+#include <stdio.h>
+#include "./overFlowChecker.h"
+#include "./main.h"
+
+bool divNum(int Num1, int Num2, int* ans) 
+{
+    if (!isValidDivOrModOp(Num1, Num2)) return false;
+    *ans = Num1/Num2;
+    return true;
+};
+
+bool modNum(int Num1, int Num2, int* ans) 
+{
+    if (!isValidDivOrModOp(Num1, Num2)) return false;
+    *ans = Num1%Num2;
+    return true;
+};
+
+void divModString(int Num, int len, char InputString[]) 
+{
+    // Cut string from the end by Num characters
+    if (Num >= len) {
+        // If Num is larger than or equal to string length, result is empty string
+        InputString[0] = '\0';
+    } else {
+        // Terminate the string at the new length
+        InputString[len - Num] = '\0';
+    }
+};
+\end{lstlisting}
+
+\subsection{Makefile}
+
+\begin{lstlisting}[language=make, caption=Makefile]
+# Simple Makefile for calc project
+# To build: type "make"
+# To clean: type "make clean"
+
+# Build the calc program
+calc: main.c add.c sub.c mult.c div.c parser.c overFlowChecker.c
+	gcc -o calc main.c add.c sub.c mult.c div.c parser.c overFlowChecker.c
+
+# Remove the compiled program
+clean:
+	rm -f calc
+\end{lstlisting}
+
+\section{Test Results}
+
+\begin{lstlisting}[caption=tests.txt]
+Please enter (1) two integers or (2) one integer and one string (up to
+100 characters, contains letters a-z and/or A-Z only). Enter everything in one
+line, separated by an operator (NO WHITESPACES): 
+220+cyb
+Operation type: +
+Output String is: okn
+
+Please enter (1) two integers or (2) one integer and one string (up to
+100 characters, contains letters a-z and/or A-Z only). Enter everything in one
+line, separated by an operator (NO WHITESPACES): 
+CYBERsecurity-5
+Operation type: -
+Output String is: XTWZMnzxpmdot
+
+Please enter (1) two integers or (2) one integer and one string (up to
+100 characters, contains letters a-z and/or A-Z only). Enter everything in one
+line, separated by an operator (NO WHITESPACES): 
+6*zzzz
+Operation type: *
+Output String is: zzzzzzzzzzzzzzzzzzzzzzzz
+
+Please enter (1) two integers or (2) one integer and one string (up to
+100 characters, contains letters a-z and/or A-Z only). Enter everything in one
+line, separated by an operator (NO WHITESPACES): 
+CYB*220
+Operation type: *
+Output String is: CYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYBCYB
+
+Please enter (1) two integers or (2) one integer and one string (up to
+100 characters, contains letters a-z and/or A-Z only). Enter everything in one
+line, separated by an operator (NO WHITESPACES): 
+Cybersecurity/8
+Operation type: /
+Output String is: Cyber
+
+Please enter (1) two integers or (2) one integer and one string (up to
+100 characters, contains letters a-z and/or A-Z only). Enter everything in one
+line, separated by an operator (NO WHITESPACES): 
+20/Cybersecurity
+Operation type: /
+Output String is: 
+
+Please enter (1) two integers or (2) one integer and one string (up to
+100 characters, contains letters a-z and/or A-Z only). Enter everything in one
+line, separated by an operator (NO WHITESPACES): 
+100%7
+Operation type: %
+Output Number is: 2
+
+Please enter (1) two integers or (2) one integer and one string (up to
+100 characters, contains letters a-z and/or A-Z only). Enter everything in one
+line, separated by an operator (NO WHITESPACES): 
+2000000000+300000000
+Operation type: +
+Error adding numbers; integer overflow detected.
+
+Please enter (1) two integers or (2) one integer and one string (up to
+100 characters, contains letters a-z and/or A-Z only). Enter everything in one
+line, separated by an operator (NO WHITESPACES): 
+123+4000000000
+Error: Second number is out of range [0, 2147483647].
+Invalid Input! Ensure you have two numbers or a number and a string with a valid operation.
+
+Please enter (1) two integers or (2) one integer and one string (up to
+100 characters, contains letters a-z and/or A-Z only). Enter everything in one
+line, separated by an operator (NO WHITESPACES): 
+77777*100000
+Operation type: *
+Error multiplying numbers; integer overflow detected.
+
+Please enter (1) two integers or (2) one integer and one string (up to
+100 characters, contains letters a-z and/or A-Z only). Enter everything in one
+line, separated by an operator (NO WHITESPACES): 
+-acb123
+Error: Empty operand detected.
+Invalid Input! Ensure you have two numbers or a number and a string with a valid operation.
+
+Please enter (1) two integers or (2) one integer and one string (up to
+100 characters, contains letters a-z and/or A-Z only). Enter everything in one
+line, separated by an operator (NO WHITESPACES): 
+abcde*500
+Operation type: *
+Warning: Result string is too long. Truncated to 1024 characters.
+Output String is: abcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcd
+
+Please enter (1) two integers or (2) one integer and one string (up to
+100 characters, contains letters a-z and/or A-Z only). Enter everything in one
+line, separated by an operator (NO WHITESPACES): 
+9+abc;def
+Error: Input contains invalid characters. Only digits (0-9), letters (a-z, A-Z), and operators (+, -, *, /, %) are allowed.
+
+Please enter (1) two integers or (2) one integer and one string (up to
+100 characters, contains letters a-z and/or A-Z only). Enter everything in one
+line, separated by an operator (NO WHITESPACES): 
+123+5+6+7
+Error: String contains invalid characters. Only a-z and A-Z allowed.
+Invalid Input! Ensure you have two numbers or a number and a string with a valid operation.
+
+Please enter (1) two integers or (2) one integer and one string (up to
+100 characters, contains letters a-z and/or A-Z only). Enter everything in one
+line, separated by an operator (NO WHITESPACES): 
+Abc-xyz
+Error: Two strings entered as operands. Only accept two integers or one integer and one string.
+Invalid Input! Ensure you have two numbers or a number and a string with a valid operation.
+
+Please enter (1) two integers or (2) one integer and one string (up to
+100 characters, contains letters a-z and/or A-Z only). Enter everything in one
+line, separated by an operator (NO WHITESPACES): 
+8000000000+1
+Error: First number is out of range [0, 2147483647].
+Invalid Input! Ensure you have two numbers or a number and a string with a valid operation.
+
+Please enter (1) two integers or (2) one integer and one string (up to
+100 characters, contains letters a-z and/or A-Z only). Enter everything in one
+line, separated by an operator (NO WHITESPACES): 
+3*aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+Error: String has more than 100 characters.
+Invalid Input! Ensure you have two numbers or a number and a string with a valid operation.
+
+Please enter (1) two integers or (2) one integer and one string (up to
+100 characters, contains letters a-z and/or A-Z only). Enter everything in one
+line, separated by an operator (NO WHITESPACES): 
+
+Error: No valid operator found in input.
+
+Please enter (1) two integers or (2) one integer and one string (up to
+100 characters, contains letters a-z and/or A-Z only). Enter everything in one
+line, separated by an operator (NO WHITESPACES): 
+500%0
+Operation type: %
+Error modding numbers; modulo by zero.
+
+Please enter (1) two integers or (2) one integer and one string (up to
+100 characters, contains letters a-z and/or A-Z only). Enter everything in one
+line, separated by an operator (NO WHITESPACES): 
+Abc%4
+Error: Modulo operation (%) requires two integers.
+Invalid Input! Ensure you have two numbers or a number and a string with a valid operation.
+
+Please enter (1) two integers or (2) one integer and one string (up to
+100 characters, contains letters a-z and/or A-Z only). Enter everything in one
+line, separated by an operator (NO WHITESPACES): 
+3 + 0
+Error: Input contains invalid characters. Only digits (0-9), letters (a-z, A-Z), and operators (+, -, *, /, %) are allowed.
+
+Please enter (1) two integers or (2) one integer and one string (up to
+100 characters, contains letters a-z and/or A-Z only). Enter everything in one
+line, separated by an operator (NO WHITESPACES): 
+abc+1
+Operation type: +
+Output String is: bcd
+
+Please enter (1) two integers or (2) one integer and one string (up to
+100 characters, contains letters a-z and/or A-Z only). Enter everything in one
+line, separated by an operator (NO WHITESPACES): 
+abc+26
+Operation type: +
+Output String is: abc
+
+Please enter (1) two integers or (2) one integer and one string (up to
+100 characters, contains letters a-z and/or A-Z only). Enter everything in one
+line, separated by an operator (NO WHITESPACES): 
+ABC+25
+Operation type: +
+Output String is: ZAB
+
+Please enter (1) two integers or (2) one integer and one string (up to
+100 characters, contains letters a-z and/or A-Z only). Enter everything in one
+line, separated by an operator (NO WHITESPACES): 
+abc-1
+Operation type: -
+Output String is: zab
+
+Please enter (1) two integers or (2) one integer and one string (up to
+100 characters, contains letters a-z and/or A-Z only). Enter everything in one
+line, separated by an operator (NO WHITESPACES): 
+abcd*2
+Operation type: *
+Output String is: abcdabcd
+
+Please enter (1) two integers or (2) one integer and one string (up to
+100 characters, contains letters a-z and/or A-Z only). Enter everything in one
+line, separated by an operator (NO WHITESPACES): 
+homework/3
+Operation type: /
+Output String is: homew
+
+Please enter (1) two integers or (2) one integer and one string (up to
+100 characters, contains letters a-z and/or A-Z only). Enter everything in one
+line, separated by an operator (NO WHITESPACES): 
+homework/8
+Operation type: /
+Output String is: 
+
+Please enter (1) two integers or (2) one integer and one string (up to
+100 characters, contains letters a-z and/or A-Z only). Enter everything in one
+line, separated by an operator (NO WHITESPACES): 
+10+20
+Operation type: +
+Output Number is: 30
+
+Please enter (1) two integers or (2) one integer and one string (up to
+100 characters, contains letters a-z and/or A-Z only). Enter everything in one
+line, separated by an operator (NO WHITESPACES): 
+100-50
+Operation type: -
+Output Number is: 50
+
+Please enter (1) two integers or (2) one integer and one string (up to
+100 characters, contains letters a-z and/or A-Z only). Enter everything in one
+line, separated by an operator (NO WHITESPACES): 
+5*6
+Operation type: *
+Output Number is: 30
+
+Please enter (1) two integers or (2) one integer and one string (up to
+100 characters, contains letters a-z and/or A-Z only). Enter everything in one
+line, separated by an operator (NO WHITESPACES): 
+20/4
+Operation type: /
+Output Number is: 5
+
+Please enter (1) two integers or (2) one integer and one string (up to
+100 characters, contains letters a-z and/or A-Z only). Enter everything in one
+line, separated by an operator (NO WHITESPACES): 
+2147483647+0
+Operation type: +
+Output Number is: 2147483647
+
+Please enter (1) two integers or (2) one integer and one string (up to
+100 characters, contains letters a-z and/or A-Z only). Enter everything in one
+line, separated by an operator (NO WHITESPACES): 
+2147483647+1
+Operation type: +
+Error adding numbers; integer overflow detected.
+
+Please enter (1) two integers or (2) one integer and one string (up to
+100 characters, contains letters a-z and/or A-Z only). Enter everything in one
+line, separated by an operator (NO WHITESPACES): 
+10/0
+Operation type: /
+Error dividing numbers; division by zero.
+
+Please enter (1) two integers or (2) one integer and one string (up to
+100 characters, contains letters a-z and/or A-Z only). Enter everything in one
+line, separated by an operator (NO WHITESPACES): 
+exit
+Breaking out of Program...
+\end{lstlisting}
+
+\end{document}
