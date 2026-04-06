@@ -1,0 +1,33 @@
+Keyword: if
+Operator: (
+Token: x
+Operator: >
+Token: 0
+Operator: )
+Operator: {
+  Token: y
+  Operator::=
+  Token: x
+  Operator: +
+  Token: 1
+  Operator:;
+  Keyword: while
+  Operator: (
+  Token: y
+  Operator: <=
+  Token: 10
+  Operator: )
+  Operator: {
+    Token: print
+    Operator: (
+    Token: y
+    Operator: )
+    Operator:;
+    Token: y
+    Operator::=
+    Token: y
+    Operator: +
+    Token: 1
+    Operator:;
+  Operator: }
+Operator: }

@@ -1,0 +1,32 @@
+set debuginfod enabled off
+set pagination off
+break 18
+break 66
+run < lab_input_10As.txt
+echo \n=== VARIABLE LOCATIONS (at breakpoint 1) ===\n
+print &scores
+print &name
+print &number_of_score
+print &average
+print &sum
+print &grade
+print &comments
+continue
+echo \n=== VALUES BEFORE OVERFLOW (at breakpoint 2, line 66) ===\n
+print scores
+print name
+print number_of_score
+print average
+print sum
+print grade
+print comments
+next
+echo \n=== VALUES AFTER OVERFLOW (after cin >> comments executed) ===\n
+print scores
+print name
+print number_of_score
+print average
+print sum
+print grade
+print comments
+quit

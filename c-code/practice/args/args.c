@@ -1,9 +1,9 @@
 #include <stdio.h>
 
-int main( int num_of_args, char *array_of_args[]) 
+int main( int argc, char *argv[]) 
 {
-    for ( int i = 1; i < num_of_args; i++)
+    for ( int i = 1; i < argc; i++)
     {
-        printf("| %s |\n", array_of_args[i]);
+        printf("| %s |\n", argv[i]);
     }
 }

@@ -1,0 +1,19 @@
+variable pass2 at memory location -0xc(%rbp), which was initialized to 789456.
+Before comparing pass2 to my input, the program executed two arithmetic instructions:
+shll $0x2: This shifted the bits of the passcode to the left by 2, effectively multiplying the value by 4. (
+789456
+∗
+4
+=
+3157824
+789456∗4=3157824
+).
+addl $0xc8: This added hex 0xC8 (decimal 200) to the result. (
+3157824
++
+200
+=
+3158024
+3157824+200=3158024
+).
+Therefore, the required decimal passcode is 3158024.

@@ -1,0 +1,3 @@
+accessor and array bool case character constant else elsif end exit float
+func if ifc in integer is mutator natural null of or others out pkg positive
+proc ptr range subtype then type when while

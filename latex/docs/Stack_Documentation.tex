@@ -1,0 +1,150 @@
+\documentclass[12pt, letterpaper]{article}
+
+% Required Packages
+\usepackage{setspace} % Line spacing
+\usepackage{ragged2e} % Text justification
+\usepackage{titlesec} % Heading levels and visual hierarchy
+\usepackage{fancyhdr} % Page numbers and secondary page headings
+\usepackage{graphicx} % Images for the title page
+\usepackage[hidelinks]{hyperref} % For internal links and TOC
+\usepackage{tocloft} % Table of Contents dot leaders
+\usepackage{geometry} % Margin configuration
+\usepackage{booktabs} % Table formatting
+\usepackage{enumitem} % List formatting
+\usepackage{xcolor} % Visual hierarchy coloring
+
+% Document Configuration
+\geometry{margin=1in, headheight=15pt}
+\singlespacing % 1. Single-spaced (1.0) text
+\RaggedRight % 2. Left-justified text
+
+% 5. Visual Hierarchy: Heading Configurations
+\titleformat{\section}{\Large\bfseries\color{blue!80!black}}{\thesection}{1em}{}[\titlerule]
+\titleformat{\subsection}{\large\bfseries\color{blue!60!black}}{\thesubsection}{1em}{}
+\titleformat{\subsubsection}{\normalsize\bfseries}{\thesubsubsection}{1em}{}
+
+% 6. Page Numbers & Secondary Heading
+\pagestyle{fancy}
+\fancyhf{} % Clear current header & footer
+\lhead{\color{gray} Usability Testing: OpenAI vs Anthropic} % Secondary heading
+\rfoot{\thepage} % Page numbers
+
+% 8. Table of Contents Configuration
+\renewcommand{\cftsecleader}{\cftdotfill{\cftdotsep}} % Use dot leaders for sections
+
+\begin{document}
+
+\pagenumbering{roman}
+% 7. Title Page
+\begin{titlepage}
+    \centering
+    \vspace*{2cm}
+    
+    {\Huge\bfseries\color{blue!80!black} Evaluating AI Interfaces:\par}
+    \vspace{0.5cm}
+    {\LARGE\bfseries A Usability Study of OpenAI and Anthropic\par}
+    
+    \vspace{2cm}
+    
+    % Placing the required logos
+    \begin{figure}[h]
+        \centering
+        \includegraphics[height=3cm]{../images/openai} \hspace{2cm}
+        \includegraphics[height=3cm]{../images/anthropic}
+    \end{figure}
+    
+    \vspace{2cm}
+    
+    {\Large\itshape Prepared for usability review\par}
+    \vspace{0.5cm}
+    {\large \today\par}
+    
+    \vfill
+    
+    \rule{\textwidth}{0.5pt}
+    {\small\color{gray} A comparative analysis of Large Language Model web interfaces focusing on varying levels of user expertise.\par}
+\end{titlepage}
+
+% Table of Contents
+\clearpage
+\tableofcontents
+\clearpage
+\pagenumbering{arabic}
+
+% Chunking Microcontent implemented throughout
+
+\section{Introduction}
+
+Artificial intelligence in the form of large language models have been growing swiftly in popularity over the last couple of years since 2020. Because of this surge of users who may value experience over technical prowess, it is becoming increasingly important that LLM companies not only have an excellent model for users to interact with, but to also ensure that this interaction is a smooth and excellent experience.
+
+Such a website would have to expect users of all sorts of backgrounds, including:
+\begin{itemize}[noitemsep]
+    \item Curious grandparents
+    \item Lazy students
+    \item Professional engineers
+    \item People looking for idle conversation
+\end{itemize}
+
+Since this wide range of users will have a wide range of use-cases, it becomes imperative that the website is able to support a bevy of features to cater to each user's level of technical expertise. 
+
+The following tests and their metrics aim at exposing how two separate AI LLM companies implement all the features required for such an audience. These two companies shall be: \textbf{OpenAI} and \textbf{Anthropic}.
+
+\section{Methodology}
+
+\subsection{Test Environment and Equipment}
+Testing was conducted in a casual home workspace. The usability test environment was configured as follows:
+\begin{itemize}[noitemsep]
+    \item \textbf{Device:} ASUS TUFF Dash 15 laptop
+    \item \textbf{Operating System:} Windows 11
+    \item \textbf{Browser:} Opera (latest version)
+\end{itemize}
+
+\subsection{Tasks}
+Participants must perform the following tasks for both the OpenAI ChatGPT webpage and the Anthropic Claude website. 
+\begin{enumerate}[noitemsep]
+    \item \textbf{Find} the explanation of what AI is.
+    \item \textbf{Find} the chat interface.
+    \item \textbf{Create} an account.
+    \item \textbf{Locate} the tools provided to the user.
+    \item \textbf{Locate} the model modes provided to the user.
+    \item \textbf{Locate} the available models.
+    \item \textbf{Find} the settings.
+    \item \textbf{Find} the memory.
+    \item \textbf{Find} the pricing.
+    \item \textbf{Use} the project interface.
+\end{enumerate}
+
+\subsection{Evaluating Criteria}
+Each execution of a task will be evaluated on criteria statements mapping to the five components of usability. The metric queries correspond to the participant's experience.
+
+\subsubsection{Test Metrics}
+\begin{itemize}[noitemsep]
+    \item \textbf{Effective:} "The task was able to be completed fully."
+    \item \textbf{Efficient:} "The task was completed in a timely manner with minimal frustrating interactions."
+    \item \textbf{Engaging:} "The website interface feels satisfying and easy to use."
+    \item \textbf{Error Tolerant:} "Errors were easy to identify, recover from, or correct."
+    \item \textbf{Easy to Learn:} "The task flow is easily explained and highly intuitive."
+\end{itemize}
+
+\subsubsection{Likert Scale Evaluation}
+Each statement will receive a score indicating level of agreement or disagreement, which corresponds to a numerical value (Table 1).
+
+\begin{table}[h]
+    \centering
+    \caption{Six-point Likert scale to evaluate each task's 5 metrics.}
+    \vspace{0.2cm}
+    \begin{tabular}{@{}ll@{}}
+        \toprule
+        \textbf{Numerical Value} & \textbf{Label} \\
+        \midrule
+        1 & Strongly Disagree \\
+        2 & Disagree \\
+        3 & Slightly Disagree \\
+        4 & Slightly Agree \\
+        5 & Agree \\
+        6 & Strongly Agree \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+\end{document}

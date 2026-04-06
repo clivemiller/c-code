@@ -1,0 +1,63 @@
+[21761][      debug] Sqlite write daemon: starting up
+[21761][      debug] Sqlite write daemon: set up complete, waiting for connections
+[21762][      debug] Sqlite write daemon: process starting, pid= 21762
+[21761][environment] CWD = /home/clivemiller/code/c-code/labs
+[21761][environment] No .inferconfig file found
+[21761][environment] Project root = /home/clivemiller/code/c-code/labs
+[21761][environment] INFER_ARGS =   --progress-bar-style multiline
+[21761][environment] command line arguments:   infer
+[21761][environment] Available memory at startup: 5311 MB
+[21761][environment] Active checkers: self-in-block (C/C++/ObjC), parameter-not-null-checked (C/C++/ObjC), starvation (C/C++/ObjC, Java), siof (C/C++/ObjC), racerd (C/C++/ObjC, C#/.Net, Java), pulse (C/C++/ObjC, C#/.Net, Erlang, Hack, Java, Python), liveness (C/C++/ObjC), inefficient-keyset-iterator (Java), fragment-retains-view (Java)
+[21761][environment] Scheduler: restart
+[21761][environment] Cores used: 16
+[21761][environment] Infer version v1.2.0
+[21761][environment] Copyright 2009 - present Facebook. All Rights Reserved.
+[21761][environment] 
+[21761][      debug] GC stats for capture:
+[21761][      debug]   minor_words: 546
+[21761][      debug]   promoted_words: 0
+[21761][      debug]   major_words: 514
+[21761][      debug]   minor_collections: 0
+[21761][      debug]   major_collections: 0
+[21761][      debug]   compactions: 0
+[21761][      debug]   top_heap_words: 760832
+[21761][      debug]   
+[21761][  user warn] Nothing to compile. Have you run `infer capture`? Try cleaning the build first.
+[21761][   progress] There was nothing to analyze.
+[21761][      debug] GC stats for report:
+[21761][      debug]   minor_words: 3630
+[21761][      debug]   promoted_words: 0
+[21761][      debug]   major_words: 514
+[21761][      debug]   minor_collections: 0
+[21761][      debug]   major_collections: 0
+[21761][      debug]   compactions: 0
+[21761][      debug]   top_heap_words: 760832
+[21761][      debug]   
+[21761][      debug] GC stats for main_process_full:
+[21761][      debug]   minor_words: 2.96709e+06
+[21761][      debug]   promoted_words: 720854
+[21761][      debug]   major_words: 763654
+[21761][      debug]   minor_collections: 8
+[21761][      debug]   major_collections: 1
+[21761][      debug]   compactions: 0
+[21761][      debug]   top_heap_words: 875008
+[21761][      debug]   
+[21762][      debug] Detected 0 spec overwrites.
+[21762][      debug] Sqlite write daemon: terminating
+[21761][      debug] Sqlite write daemon: waiting for process 21762 to finish
+[21762][      debug] dbwriter.useful_time_user= 0.00010100
+[21762][      debug] dbwriter.useful_time_sys= 0.00000000
+[21762][      debug] dbwriter.useful_time_wall= 0.00010237
+[21762][      debug] dbwriter.useful_time_oncpu_pct= 99%
+[21762][      debug] dbwriter.store_sql_user= 0.00000000
+[21762][      debug] dbwriter.store_sql_sys= 0.00000000
+[21762][      debug] dbwriter.store_sql_wall= 0.00000000
+[21762][      debug] dbwriter.store_sql_oncpu_pct= 0%
+[21762][      debug] dbwriter.store_sql_pct= 0%
+[21762][      debug] dbwriter.total_time_user= 0.00021200
+[21762][      debug] dbwriter.total_time_sys= 0.00000000
+[21762][      debug] dbwriter.total_time_wall= 0.00447039
+[21762][      debug] dbwriter.total_time_oncpu_pct= 5%
+[21762][      debug] [21761][      debug] Sqlite write daemon: process 21762 terminated
+[21761][     result] 
+  No issues found  

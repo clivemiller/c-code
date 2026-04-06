@@ -1,0 +1,69 @@
+GNU gdb (Ubuntu 15.0.50.20240403-0ubuntu1) 15.0.50.20240403-git
+Copyright (C) 2024 Free Software Foundation, Inc.
+License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>
+This is free software: you are free to change and redistribute it.
+There is NO WARRANTY, to the extent permitted by law.
+Type "show copying" and "show warranty" for details.
+This GDB was configured as "x86_64-linux-gnu".
+Type "show configuration" for configuration details.
+For bug reporting instructions, please see:
+<https://www.gnu.org/software/gdb/bugs/>.
+Find the GDB manual and other documentation resources online at:
+    <http://www.gnu.org/software/gdb/documentation/>.
+
+For help, type "help".
+Type "apropos word" to search for commands related to "word"...
+Reading symbols from program-g++-dbg...
+Breakpoint 1 at 0x1320: file Score_system_new.cpp, line 20.
+Breakpoint 2 at 0x1695: file Score_system_new.cpp, line 66.
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Breakpoint 1, main () at Score_system_new.cpp:20
+20	 cout << "\n---------------------------------------\n";
+
+=== VARIABLE LOCATIONS (at breakpoint 1) ===
+$1 = (int (*)[10]) 0x7fffffffd360
+$2 = (char (*)[100]) 0x7fffffffd390
+$3 = (int *) 0x7fffffffd34c
+$4 = (double *) 0x7fffffffd358
+$5 = (int *) 0x7fffffffd350
+$6 = 0x7fffffffd347 "X\377\021"
+$7 = (char (*)[5]) 0x7fffffffd38b
+
+---------------------------------------
+Welcome to the scoring system!
+Enter student's name:Enter up to 10 student's scores (0-100) (if done, enter -1 to stop): 
+Score 1: Score 2: Score 3: Score 4: Student's name is: jiasong
+
+Student has 3 scores, sum is 87, and the average score is 29
+Based on the average score, final grade is: F
+looks good? (Yes or No)
+Breakpoint 2, main () at Score_system_new.cpp:66
+66	  cin >> comments;  //BUFFER OVERFLOW, POSSIBLY OVERWRITE THE GRADE VARIABLE TO CHANGE THE FINAL GRADE OF A STUDENT
+
+=== VALUES BEFORE OVERFLOW (at breakpoint 2, line 66) ===
+$8 = {32, 23, 32, -2021810208, -11360, 32767, -137196864, 32767, 
+  4607, 0}
+$9 = "jiasong\n", '\000' <repeats 91 times>
+$10 = 3
+$11 = 29
+$12 = 87
+$13 = 70 'F'
+$14 = "NONE"
+68	  cout << "Comments - Looks good? - " << comments << endl << endl;
+
+=== VALUES AFTER OVERFLOW (after cin >> comments executed) ===
+$15 = {32, 23, 32, -2021810208, -11360, 32767, -137196864, 32767, 
+  4607, 0}
+$16 = "AAAAA\000g\n", '\000' <repeats 91 times>
+$17 = 3
+$18 = 29
+$19 = 87
+$20 = 70 'F'
+$21 = "AAAAA"
+A debugging session is active.
+
+	Inferior 1 [process 40995] will be killed.
+
+Quit anyway? (y or n) [answered Y; input not from terminal]

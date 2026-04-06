@@ -1,0 +1,53 @@
+=== STACK COMPREHENSIVE TEST SUITE ===
+
+--- Test 1: Basic Operations ---
+Initial IsEmpty: True
+Size after 3 pushes: 3
+Peek: 30
+Pop: 30
+Pop: 20
+Size after 2 pops: 1
+IsEmpty: False
+
+--- Test 2: Complete Lifecycle Test ---
+Pop remaining: 10
+Size after emptying: 0
+IsEmpty after emptying: True
+
+--- Test 3: Reusability After Emptying ---
+Pushed 100, 200 after emptying
+Size: 2
+Peek: 200
+IsEmpty: False
+
+--- Test 4: Edge Case - Pop on Empty Stack ---
+SUCCESS: Pop exception caught: Stack is empty
+
+--- Test 5: Edge Case - Peek on Empty Stack ---
+SUCCESS: Peek exception caught: Stack is empty
+
+--- Test 6: Alternating Push/Pop Sequence ---
+Push 1, Size: 1
+Push 2, Size: 2
+Pop: 2
+Push 3, Size: 2
+Pop: 3
+Pop: 1
+Final IsEmpty: True
+
+--- Test 7: Larger Volume Test (1000 elements) ---
+Pushed 1000 elements
+Size: 1000
+Peek (should be 1000): 1000
+After popping 500 elements:
+Size: 500
+Peek (should be 500): 500
+After popping remaining 500:
+IsEmpty: True
+
+--- Test 8: LIFO Order Verification ---
+Push order: 5 15 25 35 45 
+Pop order:  45 35 25 15 5 
+SUCCESS: LIFO order verified!
+
+=== ALL TESTS COMPLETED ===

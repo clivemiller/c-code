@@ -1,0 +1,12 @@
+clivemiller@clivepc:~/code/c-code/assignments/sys_2$ gcc main.c  
+clivemiller@clivepc:~/code/c-code/assignments/sys_2$ ./a.out 
+
+=== Debug: Final Args Array ===
+argc = 3
+args[0] = "ls"
+args[1] = "-l"
+args[2] = "file"
+args[3] = (nil) (NULL)
+===============================
+
+clivemiller@clivepc:~/code/c-code/assignments/sys_2$ 

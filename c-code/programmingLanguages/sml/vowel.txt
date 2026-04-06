@@ -1,0 +1,14 @@
+fun isVowel c =
+  c = #"a" orelse c = #"e" orelse c = #"i" orelse
+  c = #"o" orelse c = #"u"
+
+fun count_vowels enteredString =
+  let
+    val charList = String.explode enteredString
+    val vowels = List.filter isVowel charList
+    val x = length vowels
+  in
+    (x)
+  end;
+
+print(count_vowels "supercalifragilisticexpialidocious");
